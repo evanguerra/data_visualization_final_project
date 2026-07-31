@@ -1,9 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odor Space Across Concentration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 <body>
 
-<h1>Smell Perception Over Concentration Visualizer</h1>
-<p>How do molecular features change as concentration changes?</p>
+<div id="app">
+    <header id="app-header">
+        <span class="wordmark">ODOR SPACE</span>
+        <span class="scene-progress" id="scene-progress">01 / 03</span>
+    </header>
 
+    <main id="scene-root" aria-live="polite"></main>
+
+    <nav id="scene-nav">
+        <button id="<prev-btn" class="nav-btn nav-btn--ghost" type="button">&larr; Back</button>
+        <div class="nav-dots" id="nav-dots"></div>
+        <button id="next-btn" class="nav-btn nav-btn--solid" type="button">Next &rarr;</button>
+    </nav>
+</div>
+
+<script type="module" src="main.js"></script>
 </body>
 </html>
