@@ -1,16 +1,3 @@
-"""
-Preprocess odor behavioral/molecule data into a single JSON file
-ready for a D3 PCA scatter/biplot visualization.
-
-Inputs (edit paths below if needed):
-    behavior_1.csv  - Stimulus x descriptor rating matrix (146 descriptors)
-    stimuli.csv     - Stimulus -> CAS / CID / Concentration / Name lookup
-    molecules.csv   - CID -> MolecularWeight / SMILES / IUPACName / name
-
-Output:
-    pca_data.json   - {meta, descriptors, points, loadings}
-"""
-
 import json
 import numpy as np
 import pandas as pd
@@ -20,10 +7,10 @@ from sklearn.preprocessing import StandardScaler
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-BEHAVIOR_PATH = "behavior_1.csv"
-STIMULI_PATH = "stimuli.csv"
-MOLECULES_PATH = "molecules.csv"
-OUTPUT_PATH = "pca_data.json"
+BEHAVIOR_PATH = "data/data_preprocessing/behavior_1.csv"
+STIMULI_PATH = "data/data_preprocessing/stimuli.csv"
+MOLECULES_PATH = "data/data_preprocessing/molecules.csv"
+OUTPUT_PATH = "data/pca_data.json"  # matches the site's data/ folder
 
 N_SCREE_COMPONENTS = 10   # how many PCs to report variance-explained for (scree plot)
 N_TOP_LOADINGS = 15       # how many top +/- descriptors per axis to flag as "top_pc1"/"top_pc2"
@@ -61,6 +48,17 @@ has_cid = merged["CID"].notna().sum()
 print(f"{has_cid}/{len(merged)} stimuli have a linked CID/molecule record "
       f"({len(merged) - has_cid} are mixtures/oils without a single CID)")
 
+if has_cid == 0:
+    print("\n*** WARNING: zero stimuli matched a CID. This almost always means")
+    print("*** the merge itself failed (e.g. mismatched 'Stimulus' or 'CID' values,")
+    print("*** or this script is being run from the wrong working directory / against")
+    print("*** stale CSVs). Sample of unmatched Stimulus values and stimuli.csv rows:")
+    print(merged["Stimulus"].head(5).tolist())
+    print(stimuli[["Stimulus", "CID"]].head(5).to_string())
+elif has_cid < len(merged) * 0.5:
+    missing_sample = merged.loc[merged["CID"].isna(), "Stimulus"].head(10).tolist()
+    print(f"Sample stimuli with no CID match: {missing_sample}")
+
 # ---------------------------------------------------------------------------
 # 3. PCA on the descriptor matrix
 # ---------------------------------------------------------------------------
@@ -95,6 +93,7 @@ def clean(v):
 
 points = []
 for i, row in merged.iterrows():
+    raw_vals = row[descriptor_cols].values.astype(float)
     points.append({
         "stimulus": row["Stimulus"],
         "name": clean(row.get("Name")),
@@ -108,6 +107,9 @@ for i, row in merged.iterrows():
         "has_molecule_record": bool(pd.notna(row.get("CID"))),
         "pc1": round(float(scores[i, 0]), 4),
         "pc2": round(float(scores[i, 1]), 4),
+        # mean rating across all 146 descriptors -- used to size points in the plot
+        "mean_intensity": round(float(raw_vals.mean()), 3),
+        "top_descriptor": descriptor_cols[int(np.argmax(raw_vals))],
     })
 
 # ---------------------------------------------------------------------------

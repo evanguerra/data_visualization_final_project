@@ -191,7 +191,9 @@
       "molecule_name": "698-10-2",
       "has_molecule_record": true,
       "pc1": -0.8739,
-      "pc2": -1.918
+      "pc2": -1.918,
+      "mean_intensity": 2.508,
+      "top_descriptor": "MAPLE SYRUP"
     },
     {
       "stimulus": "Acetophenone_high",
@@ -205,7 +207,9 @@
       "molecule_name": "acetophenone",
       "has_molecule_record": true,
       "pc1": 2.7226,
-      "pc2": 4.6617
+      "pc2": 4.6617,
+      "mean_intensity": 4.85,
+      "top_descriptor": "AROMATIC"
     },
     {
       "stimulus": "AcetylPyridine_high",
@@ -219,7 +223,9 @@
       "molecule_name": "2-acetylpyridine",
       "has_molecule_record": true,
       "pc1": -6.6065,
-      "pc2": -2.3723
+      "pc2": -2.3723,
+      "mean_intensity": 3.157,
+      "top_descriptor": "POPCORN"
     },
     {
       "stimulus": "Adoxal_high",
@@ -233,7 +239,9 @@
       "molecule_name": "2,6,10-trimethylundec-9-enal",
       "has_molecule_record": true,
       "pc1": 0.0058,
-      "pc2": -0.6961
+      "pc2": -0.6961,
+      "mean_intensity": 2.84,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "AldehydeC-16highcon_high",
@@ -247,7 +255,9 @@
       "molecule_name": "77-83-8",
       "has_molecule_record": true,
       "pc1": 6.6164,
-      "pc2": -6.182
+      "pc2": -6.182,
+      "mean_intensity": 2.955,
+      "top_descriptor": "SWEET"
     },
     {
       "stimulus": "AldehydeC-16lowcon_low",
@@ -261,7 +271,9 @@
       "molecule_name": "77-83-8",
       "has_molecule_record": true,
       "pc1": 8.4418,
-      "pc2": -6.5323
+      "pc2": -6.5323,
+      "mean_intensity": 3.845,
+      "top_descriptor": "SWEET"
     },
     {
       "stimulus": "AldehydeC-18_high",
@@ -275,7 +287,9 @@
       "molecule_name": "104-61-0",
       "has_molecule_record": true,
       "pc1": 2.365,
-      "pc2": -2.5329
+      "pc2": -2.5329,
+      "mean_intensity": 2.794,
+      "top_descriptor": "COCONUT"
     },
     {
       "stimulus": "AllylCaproate_high",
@@ -289,7 +303,9 @@
       "molecule_name": "allyl hexanoate",
       "has_molecule_record": true,
       "pc1": 7.7706,
-      "pc2": -5.6894
+      "pc2": -5.6894,
+      "mean_intensity": 3.952,
+      "top_descriptor": "SWEET"
     },
     {
       "stimulus": "AmylAcetateiso-amylAcetat_high",
@@ -303,7 +319,9 @@
       "molecule_name": "isoamyl acetate",
       "has_molecule_record": true,
       "pc1": 5.3803,
-      "pc2": -0.4193
+      "pc2": -0.4193,
+      "mean_intensity": 3.209,
+      "top_descriptor": "SWEET"
     },
     {
       "stimulus": "AmylButyrate_high",
@@ -317,7 +335,9 @@
       "molecule_name": "pentyl butyrate",
       "has_molecule_record": true,
       "pc1": 0.0996,
-      "pc2": -3.8584
+      "pc2": -3.8584,
+      "mean_intensity": 2.851,
+      "top_descriptor": "FRUITY,OTHER THAN CITRUS"
     },
     {
       "stimulus": "AmylCinnamicAldehyeDiethy_high",
@@ -331,7 +351,9 @@
       "molecule_name": "2-diethoxymethyl-1-phenylhept-1-ene",
       "has_molecule_record": true,
       "pc1": 4.71,
-      "pc2": -2.0866
+      "pc2": -2.0866,
+      "mean_intensity": 4.054,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "AmylPhenylAcetate_high",
@@ -345,7 +367,9 @@
       "molecule_name": "amyl phenylacetate",
       "has_molecule_record": true,
       "pc1": 1.6818,
-      "pc2": -1.4929
+      "pc2": -1.4929,
+      "mean_intensity": 2.752,
+      "top_descriptor": "SWEET"
     },
     {
       "stimulus": "AmylValerate_high",
@@ -359,7 +383,9 @@
       "molecule_name": "pentyl valerate",
       "has_molecule_record": true,
       "pc1": -2.5142,
-      "pc2": -5.239
+      "pc2": -5.239,
+      "mean_intensity": 2.593,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Andrane_high",
@@ -373,7 +399,9 @@
       "molecule_name": "alpha-cedrene epoxide",
       "has_molecule_record": true,
       "pc1": 2.5444,
-      "pc2": 2.3093
+      "pc2": 2.3093,
+      "mean_intensity": 2.759,
+      "top_descriptor": "CEDARWOOD"
     },
     {
       "stimulus": "Anethole_high",
@@ -387,7 +415,9 @@
       "molecule_name": "anethole",
       "has_molecule_record": true,
       "pc1": 4.3073,
-      "pc2": 0.3215
+      "pc2": 0.3215,
+      "mean_intensity": 3.672,
+      "top_descriptor": "ANISE, LICORICE"
     },
     {
       "stimulus": "Anisole_high",
@@ -401,7 +431,9 @@
       "molecule_name": "anisole",
       "has_molecule_record": true,
       "pc1": -0.9929,
-      "pc2": 8.1176
+      "pc2": 8.1176,
+      "mean_intensity": 2.863,
+      "top_descriptor": "CHEMICAL"
     },
     {
       "stimulus": "Auralva_high",
@@ -415,7 +447,9 @@
       "molecule_name": "aurantiol",
       "has_molecule_record": true,
       "pc1": 6.5329,
-      "pc2": -3.1075
+      "pc2": -3.1075,
+      "mean_intensity": 3.066,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Benzaldehyde_high",
@@ -429,7 +463,9 @@
       "molecule_name": "benzaldehyde",
       "has_molecule_record": true,
       "pc1": 5.0845,
-      "pc2": -2.6789
+      "pc2": -2.6789,
+      "mean_intensity": 3.705,
+      "top_descriptor": "ALMOND"
     },
     {
       "stimulus": "BenzoDihydropyrone_high",
@@ -443,7 +479,9 @@
       "molecule_name": "dihydrocoumarin",
       "has_molecule_record": true,
       "pc1": 3.0799,
-      "pc2": -0.1211
+      "pc2": -0.1211,
+      "mean_intensity": 2.946,
+      "top_descriptor": "SWEET"
     },
     {
       "stimulus": "BornylAcetateiso-BornylA_high",
@@ -457,7 +495,9 @@
       "molecule_name": "bornyl acetate",
       "has_molecule_record": true,
       "pc1": 4.5096,
-      "pc2": 3.9998
+      "pc2": 3.9998,
+      "mean_intensity": 3.585,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "ButanoicAcid_high",
@@ -471,7 +511,9 @@
       "molecule_name": "butyric acid",
       "has_molecule_record": true,
       "pc1": -11.4632,
-      "pc2": -7.3003
+      "pc2": -7.3003,
+      "mean_intensity": 3.704,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Butanol_high",
@@ -485,7 +527,9 @@
       "molecule_name": "1-butanol",
       "has_molecule_record": true,
       "pc1": -4.2072,
-      "pc2": 4.7078
+      "pc2": 4.7078,
+      "mean_intensity": 3.844,
+      "top_descriptor": "CHEMICAL"
     },
     {
       "stimulus": "ButylQuinolineiso_high",
@@ -499,7 +543,9 @@
       "molecule_name": "6-sec-butylquinoline",
       "has_molecule_record": true,
       "pc1": -4.8982,
-      "pc2": 2.7851
+      "pc2": 2.7851,
+      "mean_intensity": 3.421,
+      "top_descriptor": "MUSTY, EARTHY, MOLDY"
     },
     {
       "stimulus": "ButylSulfide_high",
@@ -513,7 +559,9 @@
       "molecule_name": "dibutyl sulfide",
       "has_molecule_record": true,
       "pc1": -2.8157,
-      "pc2": 1.6407
+      "pc2": 1.6407,
+      "mean_intensity": 3.104,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Camphordl_high",
@@ -527,7 +575,9 @@
       "molecule_name": "camphor",
       "has_molecule_record": true,
       "pc1": 1.483,
-      "pc2": 6.9334
+      "pc2": 6.9334,
+      "mean_intensity": 3.872,
+      "top_descriptor": "CAMPHOR"
     },
     {
       "stimulus": "Carvone-l_high",
@@ -541,7 +591,9 @@
       "molecule_name": "(-)-carvone",
       "has_molecule_record": true,
       "pc1": 5.7342,
-      "pc2": 0.4092
+      "pc2": 0.4092,
+      "mean_intensity": 3.621,
+      "top_descriptor": "MINTY, PEPPERMINT"
     },
     {
       "stimulus": "Caryophyllene_high",
@@ -555,7 +607,9 @@
       "molecule_name": "isocaryophyllene",
       "has_molecule_record": true,
       "pc1": 3.1727,
-      "pc2": -0.1795
+      "pc2": -0.1795,
+      "mean_intensity": 2.81,
+      "top_descriptor": "SPICY"
     },
     {
       "stimulus": "Cashmeran_high",
@@ -569,7 +623,9 @@
       "molecule_name": "cashmeran",
       "has_molecule_record": true,
       "pc1": 5.0967,
-      "pc2": 0.9955
+      "pc2": 0.9955,
+      "mean_intensity": 4.225,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Celeriax_high",
@@ -583,7 +639,9 @@
       "molecule_name": "propylidene phthalide",
       "has_molecule_record": true,
       "pc1": -0.9186,
-      "pc2": -1.5358
+      "pc2": -1.5358,
+      "mean_intensity": 2.983,
+      "top_descriptor": "MAPLE SYRUP"
     },
     {
       "stimulus": "Chlorothymol_high",
@@ -597,7 +655,9 @@
       "molecule_name": "chlorothymol",
       "has_molecule_record": true,
       "pc1": -3.4942,
-      "pc2": 1.4344
+      "pc2": 1.4344,
+      "mean_intensity": 2.285,
+      "top_descriptor": "CHALKY"
     },
     {
       "stimulus": "CinnamicAldehyde_high",
@@ -611,7 +671,9 @@
       "molecule_name": "cinnamaldehyde",
       "has_molecule_record": true,
       "pc1": 5.0749,
-      "pc2": -1.5285
+      "pc2": -1.5285,
+      "mean_intensity": 3.891,
+      "top_descriptor": "CINNAMON"
     },
     {
       "stimulus": "Citral_high",
@@ -625,7 +687,9 @@
       "molecule_name": "citral",
       "has_molecule_record": true,
       "pc1": 6.5468,
-      "pc2": -2.1616
+      "pc2": -2.1616,
+      "mean_intensity": 4.272,
+      "top_descriptor": "LEMON"
     },
     {
       "stimulus": "Citralva_high",
@@ -639,7 +703,9 @@
       "molecule_name": "3,7-dimethylocta-2,6-dienenitrile",
       "has_molecule_record": true,
       "pc1": 3.5623,
-      "pc2": -1.8284
+      "pc2": -1.8284,
+      "mean_intensity": 3.232,
+      "top_descriptor": "LEMON"
     },
     {
       "stimulus": "Coumarin_high",
@@ -653,7 +719,9 @@
       "molecule_name": "coumarin",
       "has_molecule_record": true,
       "pc1": 4.2889,
-      "pc2": -0.2854
+      "pc2": -0.2854,
+      "mean_intensity": 3.814,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Cresol-m_high",
@@ -667,7 +735,9 @@
       "molecule_name": "m-cresol",
       "has_molecule_record": true,
       "pc1": -3.7083,
-      "pc2": 6.8779
+      "pc2": 6.8779,
+      "mean_intensity": 3.533,
+      "top_descriptor": "MEDICINAL"
     },
     {
       "stimulus": "Cresol-p_high",
@@ -681,7 +751,9 @@
       "molecule_name": "p-cresol",
       "has_molecule_record": true,
       "pc1": -2.9036,
-      "pc2": 2.4236
+      "pc2": 2.4236,
+      "mean_intensity": 2.47,
+      "top_descriptor": "MEDICINAL"
     },
     {
       "stimulus": "CresylAcetate-p_high",
@@ -695,7 +767,9 @@
       "molecule_name": "p-tolyl acetate",
       "has_molecule_record": true,
       "pc1": -0.2174,
-      "pc2": 1.6516
+      "pc2": 1.6516,
+      "mean_intensity": 3.567,
+      "top_descriptor": "ANISE, LICORICE"
     },
     {
       "stimulus": "CresylMethylEther-p_high",
@@ -709,7 +783,9 @@
       "molecule_name": "4-methylanisole",
       "has_molecule_record": true,
       "pc1": -1.4264,
-      "pc2": 5.4413
+      "pc2": 5.4413,
+      "mean_intensity": 4.444,
+      "top_descriptor": "AROMATIC"
     },
     {
       "stimulus": "CresylisoButyrate-p_high",
@@ -723,7 +799,9 @@
       "molecule_name": "p-tolyl isobutyrate",
       "has_molecule_record": true,
       "pc1": -2.2508,
-      "pc2": 3.0771
+      "pc2": 3.0771,
+      "mean_intensity": 2.855,
+      "top_descriptor": "MEDICINAL"
     },
     {
       "stimulus": "CuminicAldehyde_high",
@@ -737,7 +815,9 @@
       "molecule_name": "4-isopropylbenzaldehyde",
       "has_molecule_record": true,
       "pc1": -0.2095,
-      "pc2": 2.6745
+      "pc2": 2.6745,
+      "mean_intensity": 3.97,
+      "top_descriptor": "AROMATIC"
     },
     {
       "stimulus": "Cyclocitral-iso_high",
@@ -751,7 +831,9 @@
       "molecule_name": "1423-46-7",
       "has_molecule_record": true,
       "pc1": 1.1379,
-      "pc2": 2.4248
+      "pc2": 2.4248,
+      "mean_intensity": 3.238,
+      "top_descriptor": "HERBAL, GREEN,CUTGRASS"
     },
     {
       "stimulus": "Cyclodithalfarol_high",
@@ -765,7 +847,9 @@
       "molecule_name": "2,5-dimethyl-1,4-dithiane-2,5-diol",
       "has_molecule_record": true,
       "pc1": -13.3363,
-      "pc2": -3.2183
+      "pc2": -3.2183,
+      "mean_intensity": 4.121,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Cyclohexanedione1,2_high",
@@ -779,7 +863,9 @@
       "molecule_name": "1,2-cyclohexanedione",
       "has_molecule_record": true,
       "pc1": -4.9571,
-      "pc2": 1.4243
+      "pc2": 1.4243,
+      "mean_intensity": 3.037,
+      "top_descriptor": "BURNT,SMOKY"
     },
     {
       "stimulus": "Cyclohexanol_high",
@@ -793,7 +879,9 @@
       "molecule_name": "cyclohexanol",
       "has_molecule_record": true,
       "pc1": -3.1115,
-      "pc2": 13.0804
+      "pc2": 13.0804,
+      "mean_intensity": 4.767,
+      "top_descriptor": "MEDICINAL"
     },
     {
       "stimulus": "Cyclotene_high",
@@ -807,7 +895,9 @@
       "molecule_name": "80-71-7",
       "has_molecule_record": true,
       "pc1": -2.6061,
-      "pc2": -1.1894
+      "pc2": -1.1894,
+      "mean_intensity": 3.296,
+      "top_descriptor": "BURNT,SMOKY"
     },
     {
       "stimulus": "Cyclotropal_high",
@@ -821,7 +911,9 @@
       "molecule_name": "4-methyl-2-(1-phenylethyl)-1,3-dioxolane",
       "has_molecule_record": true,
       "pc1": -0.9194,
-      "pc2": -0.9615
+      "pc2": -0.9615,
+      "mean_intensity": 2.938,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Decadienal2,4-trans-trans_high",
@@ -835,7 +927,9 @@
       "molecule_name": "(2e,4e)-deca-2,4-dienal",
       "has_molecule_record": true,
       "pc1": -8.4582,
-      "pc2": -2.3475
+      "pc2": -2.3475,
+      "mean_intensity": 3.574,
+      "top_descriptor": "OILY, FATTY"
     },
     {
       "stimulus": "DecahydroNaphthalene_high",
@@ -849,7 +943,9 @@
       "molecule_name": "decahydronaphthalene",
       "has_molecule_record": true,
       "pc1": -0.1591,
-      "pc2": 0.0243
+      "pc2": 0.0243,
+      "mean_intensity": 1.889,
+      "top_descriptor": "MUSTY, EARTHY, MOLDY"
     },
     {
       "stimulus": "DibutylAmine_high",
@@ -863,7 +959,9 @@
       "molecule_name": "dibutylamine",
       "has_molecule_record": true,
       "pc1": -1.5862,
-      "pc2": 0.06
+      "pc2": 0.06,
+      "mean_intensity": 1.974,
+      "top_descriptor": "WOODY, RESINOUS"
     },
     {
       "stimulus": "DiethylSulfide_high",
@@ -877,7 +975,9 @@
       "molecule_name": "diethyl sulfide",
       "has_molecule_record": true,
       "pc1": -8.5823,
-      "pc2": -0.8228
+      "pc2": -0.8228,
+      "mean_intensity": 3.29,
+      "top_descriptor": "GARLIC, ONION"
     },
     {
       "stimulus": "DimethylBenzylCarbinylBut_high",
@@ -891,7 +991,9 @@
       "molecule_name": "10094-34-5",
       "has_molecule_record": true,
       "pc1": 3.4119,
-      "pc2": -3.3152
+      "pc2": -3.3152,
+      "mean_intensity": 2.499,
+      "top_descriptor": "FRUITY,OTHER THAN CITRUS"
     },
     {
       "stimulus": "DimethylPhenylEthylCarb_high",
@@ -905,7 +1007,9 @@
       "molecule_name": "2-methyl-4-phenyl-2-butanol",
       "has_molecule_record": true,
       "pc1": 2.7382,
-      "pc2": -2.1232
+      "pc2": -2.1232,
+      "mean_intensity": 1.683,
+      "top_descriptor": "LIGHT"
     },
     {
       "stimulus": "DimethylPyrazine2,3_high",
@@ -919,7 +1023,9 @@
       "molecule_name": "2,3-dimethylpyrazine",
       "has_molecule_record": true,
       "pc1": -5.4292,
-      "pc2": -0.7277
+      "pc2": -0.7277,
+      "mean_intensity": 3.268,
+      "top_descriptor": "PEANUT BUTTER"
     },
     {
       "stimulus": "DimethylPyrazine2,5_high",
@@ -933,7 +1039,9 @@
       "molecule_name": "2,5-dimethylpyrazine",
       "has_molecule_record": true,
       "pc1": -1.7329,
-      "pc2": 6.3815
+      "pc2": 6.3815,
+      "mean_intensity": 3.484,
+      "top_descriptor": "ETHERISH, ANAESTHETIC"
     },
     {
       "stimulus": "DimethylPyrrole2,5_high",
@@ -947,7 +1055,9 @@
       "molecule_name": "2,5-dimethyl-1h-pyrrole",
       "has_molecule_record": true,
       "pc1": -3.3272,
-      "pc2": -0.7241
+      "pc2": -0.7241,
+      "mean_intensity": 2.414,
+      "top_descriptor": "BURNT,SMOKY"
     },
     {
       "stimulus": "DimethylTrisulfide_high",
@@ -961,7 +1071,9 @@
       "molecule_name": "dimethyl trisulfide",
       "has_molecule_record": true,
       "pc1": -10.672,
-      "pc2": -4.3361
+      "pc2": -4.3361,
+      "mean_intensity": 3.163,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Diola_high",
@@ -975,7 +1087,9 @@
       "molecule_name": "1-methoxyhexane",
       "has_molecule_record": true,
       "pc1": 1.5374,
-      "pc2": 4.0903
+      "pc2": 4.0903,
+      "mean_intensity": 2.654,
+      "top_descriptor": "PAINT"
     },
     {
       "stimulus": "DiphenylOxide_high",
@@ -989,7 +1103,9 @@
       "molecule_name": "diphenyl ether",
       "has_molecule_record": true,
       "pc1": 1.1024,
-      "pc2": 4.4926
+      "pc2": 4.4926,
+      "mean_intensity": 3.734,
+      "top_descriptor": "AROMATIC"
     },
     {
       "stimulus": "EthylButyrate_high",
@@ -1003,7 +1119,9 @@
       "molecule_name": "ethyl butyrate",
       "has_molecule_record": true,
       "pc1": 6.6844,
-      "pc2": -7.0667
+      "pc2": -7.0667,
+      "mean_intensity": 3.711,
+      "top_descriptor": "FRUITY,OTHER THAN CITRUS"
     },
     {
       "stimulus": "EthylPropionate_high",
@@ -1017,7 +1135,9 @@
       "molecule_name": "ethyl propionate",
       "has_molecule_record": true,
       "pc1": 3.5901,
-      "pc2": -1.8268
+      "pc2": -1.8268,
+      "mean_intensity": 2.964,
+      "top_descriptor": "SWEET"
     },
     {
       "stimulus": "EthylPyrazinehighconc_high",
@@ -1031,7 +1151,9 @@
       "molecule_name": "2-ethylpyrazine",
       "has_molecule_record": true,
       "pc1": -5.0081,
-      "pc2": 0.907
+      "pc2": 0.907,
+      "mean_intensity": 3.138,
+      "top_descriptor": "PEANUT BUTTER"
     },
     {
       "stimulus": "EthylPyrazinelowconc_low",
@@ -1045,7 +1167,9 @@
       "molecule_name": "2-ethylpyrazine",
       "has_molecule_record": true,
       "pc1": -2.9389,
-      "pc2": 0.429
+      "pc2": 0.429,
+      "mean_intensity": 2.837,
+      "top_descriptor": "PEANUT BUTTER"
     },
     {
       "stimulus": "Eucalyptol_high",
@@ -1059,7 +1183,9 @@
       "molecule_name": "eucalyptol",
       "has_molecule_record": true,
       "pc1": 4.0604,
-      "pc2": 14.212
+      "pc2": 14.212,
+      "mean_intensity": 6.602,
+      "top_descriptor": "CAMPHOR"
     },
     {
       "stimulus": "Eugenol_high",
@@ -1073,7 +1199,9 @@
       "molecule_name": "eugenol",
       "has_molecule_record": true,
       "pc1": 4.1867,
-      "pc2": -1.0523
+      "pc2": -1.0523,
+      "mean_intensity": 2.936,
+      "top_descriptor": "CLOVE"
     },
     {
       "stimulus": "Floralozone_high",
@@ -1087,7 +1215,9 @@
       "molecule_name": "3-(4-ethylphenyl)-2,2-dimethylpropanal",
       "has_molecule_record": true,
       "pc1": 5.232,
-      "pc2": -2.9599
+      "pc2": -2.9599,
+      "mean_intensity": 2.843,
+      "top_descriptor": "CANTALOUPE, HONEYDEW MELON"
     },
     {
       "stimulus": "Fructone_high",
@@ -1101,7 +1231,9 @@
       "molecule_name": "ethyl 2-(2-methyl-1,3-dioxolan-2-yl)acetate",
       "has_molecule_record": true,
       "pc1": 4.8696,
-      "pc2": -4.9956
+      "pc2": -4.9956,
+      "mean_intensity": 2.141,
+      "top_descriptor": "FRUITY,OTHER THAN CITRUS"
     },
     {
       "stimulus": "Furfural_high",
@@ -1115,7 +1247,9 @@
       "molecule_name": "furfural",
       "has_molecule_record": true,
       "pc1": 0.2378,
-      "pc2": 0.7641
+      "pc2": 0.7641,
+      "mean_intensity": 2.886,
+      "top_descriptor": "SWEET"
     },
     {
       "stimulus": "FurfurylMercaptan_high",
@@ -1129,7 +1263,9 @@
       "molecule_name": "furfuryl mercaptan",
       "has_molecule_record": true,
       "pc1": -5.9264,
-      "pc2": -3.8406
+      "pc2": -3.8406,
+      "mean_intensity": 2.498,
+      "top_descriptor": "FISHY"
     },
     {
       "stimulus": "Grisalva_high",
@@ -1143,7 +1279,9 @@
       "molecule_name": "schembl17864245",
       "has_molecule_record": true,
       "pc1": 2.3891,
-      "pc2": 1.044
+      "pc2": 1.044,
+      "mean_intensity": 2.613,
+      "top_descriptor": "CEDARWOOD"
     },
     {
       "stimulus": "Guaiacol_high",
@@ -1157,7 +1295,9 @@
       "molecule_name": "guaiacol",
       "has_molecule_record": true,
       "pc1": -5.7616,
-      "pc2": 7.3545
+      "pc2": 7.3545,
+      "mean_intensity": 3.985,
+      "top_descriptor": "BURNT,SMOKY"
     },
     {
       "stimulus": "Heptanal_high",
@@ -1171,7 +1311,9 @@
       "molecule_name": "heptanal",
       "has_molecule_record": true,
       "pc1": -2.7767,
-      "pc2": 0.2072
+      "pc2": 0.2072,
+      "mean_intensity": 3.154,
+      "top_descriptor": "OILY, FATTY"
     },
     {
       "stimulus": "Heptanol1_high",
@@ -1185,7 +1327,9 @@
       "molecule_name": "1-heptanol",
       "has_molecule_record": true,
       "pc1": 1.7429,
-      "pc2": 5.7084
+      "pc2": 5.7084,
+      "mean_intensity": 4.624,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Hexanal_high",
@@ -1199,7 +1343,9 @@
       "molecule_name": "hexanal",
       "has_molecule_record": true,
       "pc1": -3.5553,
-      "pc2": 0.2611
+      "pc2": 0.2611,
+      "mean_intensity": 3.287,
+      "top_descriptor": "HERBAL, GREEN,CUTGRASS"
     },
     {
       "stimulus": "Hexanoicacid_high",
@@ -1213,7 +1359,9 @@
       "molecule_name": "hexanoic acid",
       "has_molecule_record": true,
       "pc1": -7.6632,
-      "pc2": -3.8371
+      "pc2": -3.8371,
+      "mean_intensity": 3.066,
+      "top_descriptor": "SOUR, VINEGAR"
     },
     {
       "stimulus": "Hexanol1_high",
@@ -1227,7 +1375,9 @@
       "molecule_name": "1-hexanol",
       "has_molecule_record": true,
       "pc1": 0.6416,
-      "pc2": 6.8836
+      "pc2": 6.8836,
+      "mean_intensity": 4.78,
+      "top_descriptor": "AROMATIC"
     },
     {
       "stimulus": "Hexanol3_high",
@@ -1241,7 +1391,9 @@
       "molecule_name": "3-hexanol",
       "has_molecule_record": true,
       "pc1": 0.7122,
-      "pc2": 6.7423
+      "pc2": 6.7423,
+      "mean_intensity": 2.754,
+      "top_descriptor": "ALCOHOLIC"
     },
     {
       "stimulus": "Hexenal-trans1_high",
@@ -1255,7 +1407,9 @@
       "molecule_name": "trans-2-hexenal",
       "has_molecule_record": true,
       "pc1": 3.1444,
-      "pc2": -2.3238
+      "pc2": -2.3238,
+      "mean_intensity": 3.017,
+      "top_descriptor": "SWEET"
     },
     {
       "stimulus": "HexylAminehighconc_high",
@@ -1269,7 +1423,9 @@
       "molecule_name": "hexylamine",
       "has_molecule_record": true,
       "pc1": -3.4171,
-      "pc2": -1.2936
+      "pc2": -1.2936,
+      "mean_intensity": 2.619,
+      "top_descriptor": "FISHY"
     },
     {
       "stimulus": "HexylAminelowconc_low",
@@ -1283,7 +1439,9 @@
       "molecule_name": "hexylamine",
       "has_molecule_record": true,
       "pc1": -6.7356,
-      "pc2": -2.0556
+      "pc2": -2.0556,
+      "mean_intensity": 3.129,
+      "top_descriptor": "FISHY"
     },
     {
       "stimulus": "HexylCinnamicAldehyde_high",
@@ -1297,7 +1455,9 @@
       "molecule_name": "alpha-hexylcinnamaldehyde",
       "has_molecule_record": true,
       "pc1": 4.1351,
-      "pc2": -2.0225
+      "pc2": -2.0225,
+      "mean_intensity": 3.054,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "HydratropicAldehydeDiAl_high",
@@ -1311,7 +1471,9 @@
       "molecule_name": "2-phenylpropionaldehyde dimethyl acetal",
       "has_molecule_record": true,
       "pc1": 0.4587,
-      "pc2": 1.0634
+      "pc2": 1.0634,
+      "mean_intensity": 2.56,
+      "top_descriptor": "MUSTY, EARTHY, MOLDY"
     },
     {
       "stimulus": "HydroxyCitronellal_high",
@@ -1325,7 +1487,9 @@
       "molecule_name": "hydroxycitronellal",
       "has_molecule_record": true,
       "pc1": 3.995,
-      "pc2": -0.985
+      "pc2": -0.985,
+      "mean_intensity": 2.68,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Indole_high",
@@ -1339,7 +1503,9 @@
       "molecule_name": "indole",
       "has_molecule_record": true,
       "pc1": -6.0511,
-      "pc2": 2.1718
+      "pc2": 2.1718,
+      "mean_intensity": 3.507,
+      "top_descriptor": "MOTHBALLS"
     },
     {
       "stimulus": "Indolene_high",
@@ -1353,7 +1519,9 @@
       "molecule_name": "67801-36-9",
       "has_molecule_record": true,
       "pc1": 1.2384,
-      "pc2": -0.669
+      "pc2": -0.669,
+      "mean_intensity": 2.115,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Iodoform_high",
@@ -1367,7 +1535,9 @@
       "molecule_name": "iodoform",
       "has_molecule_record": true,
       "pc1": 0.0718,
-      "pc2": 3.2457
+      "pc2": 3.2457,
+      "mean_intensity": 2.521,
+      "top_descriptor": "RAISINS"
     },
     {
       "stimulus": "Ionone-betahighconc_high",
@@ -1381,7 +1551,9 @@
       "molecule_name": "beta-ionone",
       "has_molecule_record": true,
       "pc1": 3.9567,
-      "pc2": -0.834
+      "pc2": -0.834,
+      "mean_intensity": 2.833,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Ionone-betalowconc_low",
@@ -1395,7 +1567,9 @@
       "molecule_name": "beta-ionone",
       "has_molecule_record": true,
       "pc1": 6.9421,
-      "pc2": -3.4436
+      "pc2": -3.4436,
+      "mean_intensity": 3.267,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Ironealpha_high",
@@ -1409,7 +1583,9 @@
       "molecule_name": "alpha-irone",
       "has_molecule_record": true,
       "pc1": 6.1884,
-      "pc2": -0.9483
+      "pc2": -0.9483,
+      "mean_intensity": 3.269,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Limonene_high",
@@ -1423,7 +1599,9 @@
       "molecule_name": "limonene",
       "has_molecule_record": true,
       "pc1": 6.4952,
-      "pc2": -4.0023
+      "pc2": -4.0023,
+      "mean_intensity": 3.496,
+      "top_descriptor": "FRUITY,CITRUS"
     },
     {
       "stimulus": "Linalool_high",
@@ -1437,7 +1615,9 @@
       "molecule_name": "(-)-linalool",
       "has_molecule_record": true,
       "pc1": 5.8462,
-      "pc2": -0.24
+      "pc2": -0.24,
+      "mean_intensity": 3.432,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Lyral_high",
@@ -1451,7 +1631,9 @@
       "molecule_name": "lyral",
       "has_molecule_record": true,
       "pc1": 4.9005,
-      "pc2": -2.631
+      "pc2": -2.631,
+      "mean_intensity": 3.175,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Maritima_high",
@@ -1465,7 +1647,9 @@
       "molecule_name": "4-(4,8-dimethyl-3,7-nonadienyl)pyridine",
       "has_molecule_record": true,
       "pc1": -3.7637,
-      "pc2": -2.327
+      "pc2": -2.327,
+      "mean_intensity": 2.313,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Melonal_high",
@@ -1479,7 +1663,9 @@
       "molecule_name": "2,6-dimethyl-5-heptenal",
       "has_molecule_record": true,
       "pc1": 4.8547,
-      "pc2": -1.0829
+      "pc2": -1.0829,
+      "mean_intensity": 3.943,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Menthol-l_high",
@@ -1493,7 +1679,9 @@
       "molecule_name": "l-menthol",
       "has_molecule_record": true,
       "pc1": 4.2898,
-      "pc2": 3.6085
+      "pc2": 3.6085,
+      "mean_intensity": 3.574,
+      "top_descriptor": "COOL,COOLING"
     },
     {
       "stimulus": "MethoxyNaphthalene2_high",
@@ -1507,7 +1695,9 @@
       "molecule_name": "2-methoxynaphthalene",
       "has_molecule_record": true,
       "pc1": 2.3835,
-      "pc2": 3.4304
+      "pc2": 3.4304,
+      "mean_intensity": 3.941,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Methyl-iso-Borneol2_high",
@@ -1521,7 +1711,9 @@
       "molecule_name": "2371-42-8",
       "has_molecule_record": true,
       "pc1": -0.8851,
-      "pc2": 0.9709
+      "pc2": 0.9709,
+      "mean_intensity": 2.755,
+      "top_descriptor": "MUSTY, EARTHY, MOLDY"
     },
     {
       "stimulus": "Methyl-iso-Nicotinate_high",
@@ -1535,7 +1727,9 @@
       "molecule_name": "methyl isonicotinate",
       "has_molecule_record": true,
       "pc1": -0.5666,
-      "pc2": 1.0475
+      "pc2": 1.0475,
+      "mean_intensity": 2.382,
+      "top_descriptor": "WOODY, RESINOUS"
     },
     {
       "stimulus": "MethylAcetaldehydeDiAce_high",
@@ -1549,7 +1743,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 3.1204,
-      "pc2": -0.2109
+      "pc2": -0.2109,
+      "mean_intensity": 2.939,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "MethylAnthranilate_high",
@@ -1563,7 +1759,9 @@
       "molecule_name": "methyl anthranilate",
       "has_molecule_record": true,
       "pc1": 7.5546,
-      "pc2": -3.9899
+      "pc2": -3.9899,
+      "mean_intensity": 4.298,
+      "top_descriptor": "BURNT CANDLE"
     },
     {
       "stimulus": "MethylFuroate_high",
@@ -1577,7 +1775,9 @@
       "molecule_name": "methyl 2-furoate",
       "has_molecule_record": true,
       "pc1": -3.1247,
-      "pc2": 3.8598
+      "pc2": 3.8598,
+      "mean_intensity": 3.101,
+      "top_descriptor": "SHARP, PUNGENT, ACID"
     },
     {
       "stimulus": "MethylQuinolinepara_high",
@@ -1591,7 +1791,9 @@
       "molecule_name": "6-methylquinoline",
       "has_molecule_record": true,
       "pc1": -0.2173,
-      "pc2": 2.3254
+      "pc2": 2.3254,
+      "mean_intensity": 2.725,
+      "top_descriptor": "CHEMICAL"
     },
     {
       "stimulus": "MethylThiobutyrate_high",
@@ -1605,7 +1807,9 @@
       "molecule_name": "methyl thiobutyrate",
       "has_molecule_record": true,
       "pc1": -12.7391,
-      "pc2": -7.1412
+      "pc2": -7.1412,
+      "mean_intensity": 3.873,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Methylsalicylate_high",
@@ -1619,7 +1823,9 @@
       "molecule_name": "methyl salicylate",
       "has_molecule_record": true,
       "pc1": 5.8142,
-      "pc2": 0.5091
+      "pc2": 0.5091,
+      "mean_intensity": 3.735,
+      "top_descriptor": "MINTY, PEPPERMINT"
     },
     {
       "stimulus": "MuskGalaxolide_high",
@@ -1633,7 +1839,9 @@
       "molecule_name": "galaxolide",
       "has_molecule_record": true,
       "pc1": 5.5405,
-      "pc2": -2.4335
+      "pc2": -2.4335,
+      "mean_intensity": 3.134,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "MuskTonalid_high",
@@ -1647,7 +1855,9 @@
       "molecule_name": "tonalide",
       "has_molecule_record": true,
       "pc1": 6.0132,
-      "pc2": -1.3517
+      "pc2": -1.3517,
+      "mean_intensity": 4.611,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Myracaldehyde_high",
@@ -1661,7 +1871,9 @@
       "molecule_name": "myrac aldehyde",
       "has_molecule_record": true,
       "pc1": 6.2631,
-      "pc2": -2.9315
+      "pc2": -2.9315,
+      "mean_intensity": 3.306,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "NonylAcetate_high",
@@ -1675,7 +1887,9 @@
       "molecule_name": "nonyl acetate",
       "has_molecule_record": true,
       "pc1": 0.4267,
-      "pc2": 0.1421
+      "pc2": 0.1421,
+      "mean_intensity": 2.667,
+      "top_descriptor": "SOAPY"
     },
     {
       "stimulus": "Nootkatone_high",
@@ -1689,7 +1903,9 @@
       "molecule_name": "nootkatone",
       "has_molecule_record": true,
       "pc1": 0.3634,
-      "pc2": 2.363
+      "pc2": 2.363,
+      "mean_intensity": 2.761,
+      "top_descriptor": "WOODY, RESINOUS"
     },
     {
       "stimulus": "Octanol1_high",
@@ -1703,7 +1919,9 @@
       "molecule_name": "1-octanol",
       "has_molecule_record": true,
       "pc1": -2.0621,
-      "pc2": 3.1741
+      "pc2": 3.1741,
+      "mean_intensity": 4.002,
+      "top_descriptor": "SPICY"
     },
     {
       "stimulus": "Octenol-1-3-OL_high",
@@ -1717,7 +1935,9 @@
       "molecule_name": "1-octen-3-ol",
       "has_molecule_record": true,
       "pc1": -1.7562,
-      "pc2": 1.632
+      "pc2": 1.632,
+      "mean_intensity": 3.787,
+      "top_descriptor": "RAISINS"
     },
     {
       "stimulus": "PentanoicAcid_high",
@@ -1731,7 +1951,9 @@
       "molecule_name": "valeric acid",
       "has_molecule_record": true,
       "pc1": -11.1073,
-      "pc2": -6.866
+      "pc2": -6.866,
+      "mean_intensity": 3.486,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "PentenoicAcid4_high",
@@ -1745,7 +1967,9 @@
       "molecule_name": "4-pentenoic acid",
       "has_molecule_record": true,
       "pc1": -4.7976,
-      "pc2": -5.3931
+      "pc2": -5.3931,
+      "mean_intensity": 2.578,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "PhenylAceticAcid_high",
@@ -1759,7 +1983,9 @@
       "molecule_name": "phenylacetic acid",
       "has_molecule_record": true,
       "pc1": -1.7385,
-      "pc2": -3.0636
+      "pc2": -3.0636,
+      "mean_intensity": 2.89,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "PhenylAcetylene_high",
@@ -1773,7 +1999,9 @@
       "molecule_name": "ethynylbenzene",
       "has_molecule_record": true,
       "pc1": -1.8727,
-      "pc2": 9.4732
+      "pc2": 9.4732,
+      "mean_intensity": 3.607,
+      "top_descriptor": "CHEMICAL"
     },
     {
       "stimulus": "PhenylEthanolhighconc_high",
@@ -1787,7 +2015,9 @@
       "molecule_name": "2-phenylethanol",
       "has_molecule_record": true,
       "pc1": 6.4022,
-      "pc2": -2.7443
+      "pc2": -2.7443,
+      "mean_intensity": 3.859,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "PhenylEthanollowconc_low",
@@ -1801,7 +2031,9 @@
       "molecule_name": "2-phenylethanol",
       "has_molecule_record": true,
       "pc1": 5.3643,
-      "pc2": -2.7459
+      "pc2": -2.7459,
+      "mean_intensity": 4.284,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Phorone-iso_high",
@@ -1815,7 +2047,9 @@
       "molecule_name": "isophorone",
       "has_molecule_record": true,
       "pc1": 0.5327,
-      "pc2": 2.0301
+      "pc2": 2.0301,
+      "mean_intensity": 2.729,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Pinenealpha_high",
@@ -1829,7 +2063,9 @@
       "molecule_name": "alpha-pinene",
       "has_molecule_record": true,
       "pc1": 1.5858,
-      "pc2": 2.3449
+      "pc2": 2.3449,
+      "mean_intensity": 2.214,
+      "top_descriptor": "WOODY, RESINOUS"
     },
     {
       "stimulus": "PropylButyrate_high",
@@ -1843,7 +2079,9 @@
       "molecule_name": "propyl butyrate",
       "has_molecule_record": true,
       "pc1": -3.9277,
-      "pc2": -3.786
+      "pc2": -3.786,
+      "mean_intensity": 3.336,
+      "top_descriptor": "SOUR, VINEGAR"
     },
     {
       "stimulus": "PropylQuinoline-iso_high",
@@ -1857,7 +2095,9 @@
       "molecule_name": "6-isopropylquinoline",
       "has_molecule_record": true,
       "pc1": -6.0829,
-      "pc2": 2.6903
+      "pc2": 2.6903,
+      "mean_intensity": 3.689,
+      "top_descriptor": "MUSTY, EARTHY, MOLDY"
     },
     {
       "stimulus": "PropylSulfide_high",
@@ -1871,7 +2111,9 @@
       "molecule_name": "propyl sulfide",
       "has_molecule_record": true,
       "pc1": -4.5737,
-      "pc2": 1.5685
+      "pc2": 1.5685,
+      "mean_intensity": 2.89,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Pyridine_high",
@@ -1885,7 +2127,9 @@
       "molecule_name": "pyridine",
       "has_molecule_record": true,
       "pc1": -10.5488,
-      "pc2": 0.4997
+      "pc2": 0.4997,
+      "mean_intensity": 4.606,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Safrole_high",
@@ -1899,7 +2143,9 @@
       "molecule_name": "safrole",
       "has_molecule_record": true,
       "pc1": 4.5303,
-      "pc2": 1.9726
+      "pc2": 1.9726,
+      "mean_intensity": 3.797,
+      "top_descriptor": "ANISE, LICORICE"
     },
     {
       "stimulus": "Sandiff_high",
@@ -1913,7 +2159,9 @@
       "molecule_name": "3407-42-9",
       "has_molecule_record": true,
       "pc1": 1.8528,
-      "pc2": -0.0407
+      "pc2": -0.0407,
+      "mean_intensity": 2.496,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Santalol_high",
@@ -1927,7 +2175,9 @@
       "molecule_name": "115-71-9",
       "has_molecule_record": true,
       "pc1": 3.0256,
-      "pc2": -0.6509
+      "pc2": -0.6509,
+      "mean_intensity": 2.271,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Skatole_high",
@@ -1941,7 +2191,9 @@
       "molecule_name": "3-methylindole",
       "has_molecule_record": true,
       "pc1": -8.3479,
-      "pc2": -0.2853
+      "pc2": -0.2853,
+      "mean_intensity": 3.382,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Terpineolmostlyalpha_high",
@@ -1955,7 +2207,9 @@
       "molecule_name": "(-)-alpha-terpineol",
       "has_molecule_record": true,
       "pc1": 2.5294,
-      "pc2": 4.0353
+      "pc2": 4.0353,
+      "mean_intensity": 3.25,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "TetrahydroThiophene_high",
@@ -1969,7 +2223,9 @@
       "molecule_name": "tetrahydrothiophene",
       "has_molecule_record": true,
       "pc1": -5.1999,
-      "pc2": 1.0314
+      "pc2": 1.0314,
+      "mean_intensity": 3.109,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Tetraquinone_high",
@@ -1983,7 +2239,9 @@
       "molecule_name": "tetrahydroxyquinone",
       "has_molecule_record": true,
       "pc1": -2.9092,
-      "pc2": 2.0123
+      "pc2": 2.0123,
+      "mean_intensity": 2.782,
+      "top_descriptor": "MOTHBALLS"
     },
     {
       "stimulus": "Thienopyrimidine_high",
@@ -1997,7 +2255,9 @@
       "molecule_name": "thieno[3,2-d]pyrimidine",
       "has_molecule_record": true,
       "pc1": -3.4042,
-      "pc2": -3.2888
+      "pc2": -3.2888,
+      "mean_intensity": 2.459,
+      "top_descriptor": "POPCORN"
     },
     {
       "stimulus": "ThioglycolicAcid_high",
@@ -2011,7 +2271,9 @@
       "molecule_name": "mercaptoacetic acid",
       "has_molecule_record": true,
       "pc1": -10.7297,
-      "pc2": -0.6943
+      "pc2": -0.6943,
+      "mean_intensity": 4.066,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Thiophene_high",
@@ -2025,7 +2287,9 @@
       "molecule_name": "thiophene",
       "has_molecule_record": true,
       "pc1": -10.3767,
-      "pc2": -0.5289
+      "pc2": -0.5289,
+      "mean_intensity": 3.647,
+      "top_descriptor": "HEAVY"
     },
     {
       "stimulus": "Thymol_high",
@@ -2039,7 +2303,9 @@
       "molecule_name": "thymol",
       "has_molecule_record": true,
       "pc1": -3.1382,
-      "pc2": 8.9425
+      "pc2": 8.9425,
+      "mean_intensity": 3.803,
+      "top_descriptor": "MEDICINAL"
     },
     {
       "stimulus": "Tolualdehyde-ortho_high",
@@ -2053,7 +2319,9 @@
       "molecule_name": "2-methylbenzaldehyde",
       "has_molecule_record": true,
       "pc1": 3.8124,
-      "pc2": 0.3145
+      "pc2": 0.3145,
+      "mean_intensity": 3.86,
+      "top_descriptor": "ALMOND"
     },
     {
       "stimulus": "Toluenehighconc_high",
@@ -2067,7 +2335,9 @@
       "molecule_name": "toluene",
       "has_molecule_record": true,
       "pc1": 0.5104,
-      "pc2": 3.2821
+      "pc2": 3.2821,
+      "mean_intensity": 2.588,
+      "top_descriptor": "LIGHT"
     },
     {
       "stimulus": "Toluenelowconc_low",
@@ -2081,7 +2351,9 @@
       "molecule_name": "toluene",
       "has_molecule_record": true,
       "pc1": 0.5287,
-      "pc2": 2.4099
+      "pc2": 2.4099,
+      "mean_intensity": 2.081,
+      "top_descriptor": "LIGHT"
     },
     {
       "stimulus": "TrimethylAmine_high",
@@ -2095,7 +2367,9 @@
       "molecule_name": "trimethylamine",
       "has_molecule_record": true,
       "pc1": -9.8597,
-      "pc2": -4.9886
+      "pc2": -4.9886,
+      "mean_intensity": 3.506,
+      "top_descriptor": "CAT URINE"
     },
     {
       "stimulus": "Undecalactonegamma_high",
@@ -2109,7 +2383,9 @@
       "molecule_name": "gamma-undecalactone",
       "has_molecule_record": true,
       "pc1": -0.0865,
-      "pc2": -0.8404
+      "pc2": -0.8404,
+      "mean_intensity": 3.961,
+      "top_descriptor": "MUSTY, EARTHY, MOLDY"
     },
     {
       "stimulus": "UndecylenicAcid_high",
@@ -2123,7 +2399,9 @@
       "molecule_name": "undecylenic acid",
       "has_molecule_record": true,
       "pc1": 0.7411,
-      "pc2": -1.3992
+      "pc2": -1.3992,
+      "mean_intensity": 1.724,
+      "top_descriptor": "LIGHT"
     },
     {
       "stimulus": "Valeraldehyde-iso_high",
@@ -2137,7 +2415,9 @@
       "molecule_name": "3-methylbutanal",
       "has_molecule_record": true,
       "pc1": -4.7176,
-      "pc2": -1.7862
+      "pc2": -1.7862,
+      "mean_intensity": 2.891,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "ValericAcid-iso_high",
@@ -2151,7 +2431,9 @@
       "molecule_name": "isovaleric acid",
       "has_molecule_record": true,
       "pc1": -10.8155,
-      "pc2": -6.6557
+      "pc2": -6.6557,
+      "mean_intensity": 3.387,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Valerolactonegamma_high",
@@ -2165,7 +2447,9 @@
       "molecule_name": "gamma-valerolactone",
       "has_molecule_record": true,
       "pc1": 2.501,
-      "pc2": -1.559
+      "pc2": -1.559,
+      "mean_intensity": 1.688,
+      "top_descriptor": "LIGHT"
     },
     {
       "stimulus": "Vanillin_high",
@@ -2179,7 +2463,9 @@
       "molecule_name": "vanillin",
       "has_molecule_record": true,
       "pc1": 3.7123,
-      "pc2": -5.1368
+      "pc2": -5.1368,
+      "mean_intensity": 3.378,
+      "top_descriptor": "VANILLA"
     },
     {
       "stimulus": "Zingerone_high",
@@ -2193,7 +2479,9 @@
       "molecule_name": "zingerone",
       "has_molecule_record": true,
       "pc1": 0.6323,
-      "pc2": -0.9091
+      "pc2": -0.9091,
+      "mean_intensity": 2.235,
+      "top_descriptor": "BURNT,SMOKY"
     },
     {
       "stimulus": "Cedartone_high",
@@ -2207,7 +2495,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 0.2504,
-      "pc2": 3.9939
+      "pc2": 3.9939,
+      "mean_intensity": 3.557,
+      "top_descriptor": "WOODY, RESINOUS"
     },
     {
       "stimulus": "CedroneS_high",
@@ -2221,7 +2511,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 1.6409,
-      "pc2": 1.8544
+      "pc2": 1.8544,
+      "mean_intensity": 2.756,
+      "top_descriptor": "CEDARWOOD"
     },
     {
       "stimulus": "CinnamonBarkOil_high",
@@ -2235,7 +2527,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 5.1403,
-      "pc2": -2.5881
+      "pc2": -2.5881,
+      "mean_intensity": 3.096,
+      "top_descriptor": "CINNAMON"
     },
     {
       "stimulus": "CinnamonLeafOil_high",
@@ -2249,7 +2543,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 5.0179,
-      "pc2": -1.9633
+      "pc2": -1.9633,
+      "mean_intensity": 3.409,
+      "top_descriptor": "SPICY"
     },
     {
       "stimulus": "CloveBudOil_high",
@@ -2263,7 +2559,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 4.2666,
-      "pc2": -1.5723
+      "pc2": -1.5723,
+      "mean_intensity": 2.845,
+      "top_descriptor": "CLOVE"
     },
     {
       "stimulus": "EucalyptusOil_high",
@@ -2277,7 +2575,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 1.9985,
-      "pc2": 3.0893
+      "pc2": 3.0893,
+      "mean_intensity": 2.997,
+      "top_descriptor": "MEDICINAL"
     },
     {
       "stimulus": "GarlicOil_high",
@@ -2291,7 +2591,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": -5.2431,
-      "pc2": -2.3903
+      "pc2": -2.3903,
+      "mean_intensity": 2.783,
+      "top_descriptor": "GARLIC, ONION"
     },
     {
       "stimulus": "OenanticEther_high",
@@ -2305,7 +2607,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 0.6737,
-      "pc2": -1.4642
+      "pc2": -1.4642,
+      "mean_intensity": 2.019,
+      "top_descriptor": "SOAPY"
     },
     {
       "stimulus": "OnionOil_high",
@@ -2319,7 +2623,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": -7.1238,
-      "pc2": -2.2167
+      "pc2": -2.2167,
+      "mean_intensity": 3.111,
+      "top_descriptor": "GARLIC, ONION"
     },
     {
       "stimulus": "PatchouliOil_high",
@@ -2333,7 +2639,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 3.0849,
-      "pc2": 4.7446
+      "pc2": 4.7446,
+      "mean_intensity": 3.592,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Perfumecharlie_high",
@@ -2347,7 +2655,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 6.5832,
-      "pc2": -3.1168
+      "pc2": -3.1168,
+      "mean_intensity": 3.179,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Phenoxaflor_high",
@@ -2361,7 +2671,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 6.8604,
-      "pc2": -3.5567
+      "pc2": -3.5567,
+      "mean_intensity": 3.352,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "Pyrrolinemixture_high",
@@ -2375,7 +2687,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": -6.1216,
-      "pc2": -3.2732
+      "pc2": -3.2732,
+      "mean_intensity": 2.423,
+      "top_descriptor": "SICKENING"
     },
     {
       "stimulus": "Rosemarel_high",
@@ -2389,7 +2703,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 4.1663,
-      "pc2": 3.5174
+      "pc2": 3.5174,
+      "mean_intensity": 3.299,
+      "top_descriptor": "FRAGRANT"
     },
     {
       "stimulus": "SpearmintOil_high",
@@ -2403,7 +2719,9 @@
       "molecule_name": null,
       "has_molecule_record": false,
       "pc1": 5.4777,
-      "pc2": -1.6507
+      "pc2": -1.6507,
+      "mean_intensity": 2.696,
+      "top_descriptor": "MINTY, PEPPERMINT"
     },
     {
       "stimulus": "BlankDipropyleneGlycolSol_high",
@@ -2417,7 +2735,9 @@
       "molecule_name": "1-(1-hydroxypropoxy)propan-1-ol",
       "has_molecule_record": true,
       "pc1": -0.4554,
-      "pc2": -1.1408
+      "pc2": -1.1408,
+      "mean_intensity": 1.871,
+      "top_descriptor": "WOODY, RESINOUS"
     }
   ],
   "loadings": [
