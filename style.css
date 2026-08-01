@@ -369,36 +369,44 @@ button { font-family: inherit; }
   font-size: 9.5px;
 }
 
-.scene__viz--split {
+.scene__viz--stack {
   display: flex;
+  flex-direction: column;
   height: 100%;
 }
 
-.bar-chart-col {
+.bar-chart-row {
   flex: 1 1 50%;
-  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  padding: 20px 12px 8px;
+  padding: 14px 20px 4px;
 }
 
-.bar-chart-col:first-child {
-  border-right: 1px solid var(--line);
+.bar-chart-row:first-child {
+  border-bottom: 1px solid var(--line);
 }
 
-.bar-chart-col__title {
+.bar-chart-row__title {
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 15px;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: var(--ink);
 }
 
-.bar-chart-col__body {
+.bar-chart-row__body {
   flex: 1 1 auto;
   min-height: 0;
   position: relative;
+}
+
+.conc-slider {
+  width: 100%;
+  margin: 6px 0 4px;
+  accent-color: var(--accent-blue);
+  cursor: pointer;
 }
 
 .bar {

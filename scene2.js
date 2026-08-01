@@ -1,5 +1,5 @@
 const DATA_URL = 'data/trajectories.json';
-const N_BARS_SHOWN = 10;
+const N_BARS_SHOWN = 14;
 
 const CATEGORY_COLORS = {
   grows: 'var(--accent-amber)',
@@ -28,16 +28,16 @@ function fmt(n, digits = 1) {
 function buildDom(container) {
   container.innerHTML = `
     <div class="scene" id="scene2">
-      <div class="scene__viz scene__viz--split" id="s2-viz">
-        <div class="bar-chart-col">
-          <div class="bar-chart-col__title" id="s2-title-a"></div>
-          <div class="bar-chart-col__body">
+      <div class="scene__viz scene__viz--stack" id="s2-viz">
+        <div class="bar-chart-row">
+          <div class="bar-chart-row__title" id="s2-title-a"></div>
+          <div class="bar-chart-row__body">
             <svg id="s2-svg-a" width="100%" height="100%"></svg>
           </div>
         </div>
-        <div class="bar-chart-col">
-          <div class="bar-chart-col__title" id="s2-title-b"></div>
-          <div class="bar-chart-col__body">
+        <div class="bar-chart-row">
+          <div class="bar-chart-row__title" id="s2-title-b"></div>
+          <div class="bar-chart-row__body">
             <svg id="s2-svg-b" width="100%" height="100%"></svg>
           </div>
         </div>
@@ -48,16 +48,18 @@ function buildDom(container) {
           <div class="scene__eyebrow">Scene 02 · Descriptor profiles</div>
           <h1 class="scene__title">Top Descriptors</h1>
           <p class="scene__desc">
-            The ${N_BARS_SHOWN} highest-rated descriptors for each molecule,
-            at low or high presented concentration. Bar color shows how that
-            descriptor's rating moves across the concentration range.
+            The ${N_BARS_SHOWN} highest-rated descriptors for each molecule at
+            low concentration. Drag the slider to watch each one rise or fall
+            as concentration increases toward high. Bar color shows the
+            descriptor's overall trajectory category.
           </p>
         </div>
 
         <div class="panel-block">
-          <div class="toggle-row">
-            <span id="s2-toggle-label">Concentration: Low</span>
-            <button class="toggle-switch" id="s2-conc-toggle" type="button" aria-pressed="false"></button>
+          <p class="panel-block__label" id="s2-slider-label">Concentration: Low (step 1 / 6)</p>
+          <input type="range" id="s2-conc-slider" class="conc-slider" min="0" max="5" step="1" value="0" />
+          <div class="legend-scale-labels">
+            <span>Low</span><span>High</span>
           </div>
         </div>
 
@@ -101,39 +103,51 @@ function init(container, { onNext, onPrev } = {}) {
   const titleB = container.querySelector('#s2-title-b');
   const tooltipEl = container.querySelector('#s2-tooltip');
   const readoutEl = container.querySelector('#s2-readout');
-  const toggleBtn = container.querySelector('#s2-conc-toggle');
-  const toggleLabel = container.querySelector('#s2-toggle-label');
+  const slider = container.querySelector('#s2-conc-slider');
+  const sliderLabel = container.querySelector('#s2-slider-label');
 
   tooltipEls = { el: tooltipEl };
 
   let data = null;
   let molecules = [];
-  let showHigh = false;
+  let stepIndex = 0; // 0..5, index into molecule.steps
   let selected = null; // { moleculeName, descriptor }
+  // Which descriptors are shown per molecule is fixed at the low-concentration
+  // top N, so bars stay in place and only their heights move as you slide.
+  const fixedDescriptors = new Map(); // moleculeName -> [descriptor, ...]
 
-  toggleBtn.addEventListener('click', () => {
-    showHigh = !showHigh;
-    toggleBtn.classList.toggle('is-on', showHigh);
-    toggleBtn.setAttribute('aria-pressed', String(showHigh));
-    toggleLabel.textContent = `Concentration: ${showHigh ? 'High' : 'Low'}`;
+  slider.addEventListener('input', () => {
+    stepIndex = Number(slider.value);
+    updateSliderLabel();
     render();
   });
 
-  function stepFor(molecule) {
-    // steps[0] is 'low' (t=0), steps[last] is 'high' (t=1)
-    return showHigh ? molecule.steps[molecule.steps.length - 1] : molecule.steps[0];
+  function updateSliderLabel() {
+    const step = molecules[0] ? molecules[0].steps[stepIndex] : null;
+    const stepLabel = step ? step.label : '';
+    sliderLabel.textContent = `Concentration: ${stepLabel} (step ${stepIndex + 1} / 6)`;
   }
 
-  function topDescriptors(molecule) {
-    const step = stepFor(molecule);
-    return Object.entries(step.values)
-      .map(([descriptor, value]) => ({
-        descriptor,
-        value,
-        category: molecule.descriptor_categories[descriptor] || 'flat',
-      }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, N_BARS_SHOWN);
+  function descriptorsFor(molecule) {
+    if (!fixedDescriptors.has(molecule.name)) {
+      const lowStep = molecule.steps[0];
+      const top = Object.entries(lowStep.values)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, N_BARS_SHOWN)
+        .map(([descriptor]) => descriptor);
+      fixedDescriptors.set(molecule.name, top);
+    }
+    return fixedDescriptors.get(molecule.name);
+  }
+
+  function entriesFor(molecule) {
+    const step = molecule.steps[stepIndex];
+    const descriptors = descriptorsFor(molecule);
+    return descriptors.map((descriptor) => ({
+      descriptor,
+      value: step.values[descriptor],
+      category: molecule.descriptor_categories[descriptor] || 'flat',
+    }));
   }
 
   function renderReadout(entry, molecule) {
@@ -144,7 +158,7 @@ function init(container, { onNext, onPrev } = {}) {
     readoutEl.innerHTML = `
       <div class="readout__name">${entry.descriptor}</div>
       <div class="readout__row"><span>Molecule</span><span>${molecule.name}</span></div>
-      <div class="readout__row"><span>Rating (${showHigh ? 'high' : 'low'})</span><span>${fmt(entry.value)}</span></div>
+      <div class="readout__row"><span>Rating (${molecule.steps[stepIndex].label})</span><span>${fmt(entry.value)}</span></div>
       <div class="readout__row"><span>Trajectory</span><span>${CATEGORY_LABELS[entry.category] || entry.category}</span></div>
     `;
   }
@@ -168,13 +182,13 @@ function init(container, { onNext, onPrev } = {}) {
     const colEl = svgNode.parentElement;
     const width = colEl.clientWidth;
     const height = colEl.clientHeight;
-    const margin = { top: 16, right: 16, bottom: 92, left: 44 };
+    const margin = { top: 10, right: 16, bottom: 76, left: 44 };
     const innerW = Math.max(10, width - margin.left - margin.right);
     const innerH = Math.max(10, height - margin.top - margin.bottom);
 
     svg.attr('viewBox', `0 0 ${width} ${height}`);
 
-    const entries = topDescriptors(molecule);
+    const entries = entriesFor(molecule);
 
     const x = d3.scaleBand()
       .domain(entries.map((d) => d.descriptor))
@@ -275,6 +289,7 @@ function init(container, { onNext, onPrev } = {}) {
     .then((json) => {
       data = json;
       molecules = data.molecules || [];
+      updateSliderLabel();
       render();
     })
     .catch((err) => {
