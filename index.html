@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Odor Space Across Concentration</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Odor Space — A Perceptual Atlas</title>
 
-    <link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="app">
-    <header id="app-header">
-        <span class="wordmark">ODOR SPACE</span>
-        <span class="scene-progress" id="scene-progress">01 / 03</span>
-    </header>
+  <header id="app-header">
+    <span class="wordmark">ODOR SPACE</span>
+    <span class="scene-progress" id="scene-progress">01 / 03</span>
+  </header>
 
-    <main id="scene-root" aria-live="polite"></main>
+  <main id="scene-root" aria-live="polite"></main>
 
-    <nav id="scene-nav">
-        <button id="<prev-btn" class="nav-btn nav-btn--ghost" type="button">&larr; Back</button>
-        <div class="nav-dots" id="nav-dots"></div>
-        <button id="next-btn" class="nav-btn nav-btn--solid" type="button">Next &rarr;</button>
-    </nav>
+  <nav id="scene-nav">
+    <button id="prev-btn" class="nav-btn nav-btn--ghost" type="button">&larr; Back</button>
+    <div class="nav-dots" id="nav-dots"></div>
+    <button id="next-btn" class="nav-btn nav-btn--solid" type="button">Next &rarr;</button>
+  </nav>
 </div>
 
 <script src="assets/d3.min.js"></script>
