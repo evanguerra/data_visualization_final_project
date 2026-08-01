@@ -352,7 +352,7 @@ button { font-family: inherit; }
 .pca-point:hover,
 .pca-point.is-selected {
   stroke: var(--ink);
-  stroke-width: 1.5px;
+  stroke-width: 2.5px;
 }
 .pca-point.is-dimmed {
   opacity: 0.18;
@@ -424,6 +424,58 @@ button { font-family: inherit; }
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.legend-swatch-row--clickable {
+  cursor: pointer;
+  padding: 4px 6px;
+  margin: 0 -6px;
+  border-radius: var(--radius-sm);
+  transition: background 0.12s ease;
+}
+.legend-swatch-row--clickable:hover {
+  background: var(--line);
+}
+.legend-swatch-row--clickable.is-selected {
+  background: var(--accent-blue-soft);
+  font-weight: 600;
+}
+
+.molecule-arrow {
+  stroke-width: 1.75px;
+  opacity: 0.75;
+  transition: opacity 0.12s ease, stroke-width 0.12s ease;
+}
+.molecule-arrow:hover,
+.molecule-arrow.is-selected {
+  opacity: 1;
+  stroke-width: 2.75px;
+}
+
+.molecule-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 10px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color 0.12s ease;
+}
+.back-link:hover {
+  color: var(--accent-blue);
 }
 
 .placeholder-scene {

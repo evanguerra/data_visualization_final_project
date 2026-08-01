@@ -14,7 +14,7 @@ Inputs:
     stimuli.csv     - Stimulus -> CAS / CID / Concentration / Name lookup
 
 Output:
-    scene2_trajectories.json
+    trajectories.json
 """
 
 import json
@@ -30,8 +30,6 @@ N_STEPS = 6
 EMERGENCE_ABS_THRESHOLD = 1.0
 EMERGENCE_DELTA_THRESHOLD = 2.0
 
-SECOND_MOLECULE_CID = 6054.0  # Phenylethyl alcohol
-
 behavior = pd.read_csv(BEHAVIOR_PATH)
 stimuli = pd.read_csv(STIMULI_PATH)
 descriptor_cols = [c for c in behavior.columns if c != "Stimulus"]
@@ -42,32 +40,19 @@ paired_cids = (
     merged.groupby("CID")["Conc"]
     .apply(lambda s: {"high", "low"}.issubset(set(s)))
 )
-paired_cids = paired_cids[paired_cids].index.tolist()
-print(f"Found {len(paired_cids)} molecules with both a 'high' and 'low' row.")
+paired_cids = sorted(paired_cids[paired_cids].index.tolist())
+print(f"Found {len(paired_cids)} molecules with both a 'high' and 'low' row: {paired_cids}")
+
+
+import re
 
 
 def get_pair(cid):
-    """Return (low_row, high_row, display_name, cas) for a given CID."""
     rows = merged[merged["CID"] == cid]
     low_row = rows[rows["Conc"] == "low"].iloc[0]
     high_row = rows[rows["Conc"] == "high"].iloc[0]
-    # Name/CAS fields are identical between the two rows for a real molecule
-    display_name = str(low_row["Name"]).replace("lowconc", "").replace("highconc", "")
+    display_name = re.sub(r"(low|high)conc?$", "", str(low_row["Name"]), flags=re.IGNORECASE)
     return low_row, high_row, display_name, low_row["CAS"]
-
-
-toluene_cid = merged.loc[merged["CAS"] == "108-88-3", "CID"].iloc[0]
-
-if SECOND_MOLECULE_CID:
-    second_cid = SECOND_MOLECULE_CID
-    if second_cid not in paired_cids:
-        raise ValueError(f"CID {SECOND_MOLECULE_CID} doesn't have both high and low rows.")
-else:
-    candidates = [cid for cid in paired_cids if cid != toluene_cid]
-    second_cid = sorted(candidates)[0]
-
-print(f"Molecule 1 (fixed): CID {toluene_cid}")
-print(f"Molecule 2 (paired): CID {second_cid}")
 
 
 t_values = np.linspace(0, 1, N_STEPS)
@@ -78,7 +63,6 @@ def smoothstep(t):
 
 
 def classify_and_interpolate(a, b):
-    """Return (values_at_each_step, category) for one descriptor."""
     a, b = float(a), float(b)
 
     if abs(b - a) < 1e-9:
@@ -151,7 +135,7 @@ def build_molecule(cid):
         reverse=True,
     )[:10]
 
-    print(f"  {display_name}: {counts}")
+    print(f"  {display_name} (CID {cid}): {counts}")
 
     return {
         "name": display_name,
@@ -168,18 +152,11 @@ def build_molecule(cid):
         },
     }
 
-
-print("\nBuilding trajectories...")
-molecules = [build_molecule(toluene_cid), build_molecule(second_cid)]
+molecules = [build_molecule(cid) for cid in paired_cids]
 
 output = {
     "meta": {
         "n_steps": N_STEPS,
-        "note": (
-            "Steps 2-5 are modeled interpolations between the real 'low' and "
-            "'high' measurements, not additional real data. See "
-            "preprocess_scene2_trajectories.py for the interpolation rules."
-        ),
     },
     "descriptors": descriptor_cols,
     "molecules": molecules,
@@ -189,3 +166,4 @@ with open(OUTPUT_PATH, "w") as f:
     json.dump(output, f, indent=2)
 
 print(f"\nWrote {OUTPUT_PATH}")
+print(f"  molecules: {len(molecules)}")
