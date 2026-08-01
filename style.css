@@ -241,6 +241,7 @@ button { font-family: inherit; }
   flex: 0 0 auto;
 }
 
+/* toggle */
 .toggle-row {
   display: flex;
   align-items: center;
@@ -453,3 +454,4 @@ button { font-family: inherit; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
