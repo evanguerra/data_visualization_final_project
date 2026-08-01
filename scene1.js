@@ -1,3 +1,5 @@
+import { drawAnnotation } from './annotation.js';
+
 const DATA_URL = 'data/pca_data.json';
 const N_VECTORS_SHOWN = 12;
 
@@ -89,6 +91,7 @@ function init(container, { onNext, onPrev } = {}) {
   const gAxes = svg.append('g').attr('class', 'layer-axes');
   const gVectors = svg.append('g').attr('class', 'layer-vectors');
   const gPoints = svg.append('g').attr('class', 'layer-points');
+  const gAnnotations = svg.append('g').attr('class', 'layer-annotations');
 
   biplotToggle.addEventListener('click', () => {
     showBiplot = !showBiplot;
@@ -249,6 +252,30 @@ function init(container, { onNext, onPrev } = {}) {
       .attr('x', (d) => x(d.pc1 * vectorScale * 1.08))
       .attr('y', (d) => y(d.pc2 * vectorScale * 1.08))
       .text((d) => d.descriptor.split(',')[0]);
+
+    // Built-in annotation (parameter-driven, not a hover effect): always
+    // point out the single most intense stimulus in the atlas so the
+    // narrative point — "size encodes intensity" — lands immediately.
+    gAnnotations.attr('transform', `translate(${margin.left},${margin.top})`);
+    const focus = data.points.reduce(
+      (best, d) => (!best || d.mean_intensity > best.mean_intensity ? d : best),
+      null
+    );
+    if (focus) {
+      const fx = x(focus.pc1);
+      const fy = y(focus.pc2);
+      drawAnnotation(gAnnotations, {
+        x: fx,
+        y: fy,
+        dx: fx > innerW / 2 ? -196 : 22,
+        dy: fy > innerH / 2 ? -76 : 22,
+        title: 'Most intense stimulus',
+        text: [
+          focus.name || focus.stimulus,
+          `Mean intensity ${fmt(focus.mean_intensity)}`,
+        ],
+      });
+    }
   }
 
   function setupScales() {

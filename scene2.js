@@ -1,3 +1,5 @@
+import { drawAnnotation } from './annotation.js';
+
 const DATA_URL = 'data/trajectories.json';
 const N_BARS_SHOWN = 14;
 
@@ -267,6 +269,37 @@ function init(container, { onNext, onPrev } = {}) {
       .attr('width', x.bandwidth())
       .attr('y', (d) => y(d.value))
       .attr('height', (d) => innerH - y(d.value));
+
+    // Built-in annotation: call out the descriptor whose trajectory best
+    // makes this scene's point (an "emergent" descriptor if this molecule
+    // has one, otherwise the strongest "grows" descriptor). Position
+    // tracks the bar's live height as the concentration slider moves.
+    let gAnn = g.select('g.layer-annotations');
+    if (gAnn.empty()) gAnn = g.append('g').attr('class', 'layer-annotations');
+
+    const emergent = entries.filter((e) => e.category === 'emergent');
+    const pool = emergent.length ? emergent : entries.filter((e) => e.category === 'grows');
+    const focus = pool.length
+      ? pool.reduce((best, e) => (!best || e.value > best.value ? e : best), null)
+      : null;
+
+    if (focus) {
+      const bx = x(focus.descriptor) + x.bandwidth() / 2;
+      const by = y(focus.value);
+      drawAnnotation(gAnn, {
+        x: bx,
+        y: by,
+        dx: bx > innerW / 2 ? -184 : 16,
+        dy: -72,
+        title: CATEGORY_LABELS[focus.category],
+        text: [
+          focus.descriptor,
+          `${fmt(focus.value)} at ${molecule.steps[stepIndex].label.toLowerCase()} conc.`,
+        ],
+      });
+    } else {
+      gAnn.selectAll('*').remove();
+    }
   }
 
   function renderAll() {

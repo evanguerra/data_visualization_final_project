@@ -1,3 +1,5 @@
+import { drawAnnotation } from './annotation.js';
+
 const PCA_URL = 'data/pca_data.json';
 const TRAJECTORIES_URL = 'data/trajectories.json';
 
@@ -77,6 +79,7 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
   const gAxes = svg.append('g').attr('class', 'layer-axes');
   const gArrows = svg.append('g').attr('class', 'layer-arrows');
   const gPoints = svg.append('g').attr('class', 'layer-points');
+  const gAnnotations = svg.append('g').attr('class', 'layer-annotations');
 
   function selectMolecule(m) {
     selectedCid = m.cid;
@@ -295,6 +298,26 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       .attr('y', (d) => y(d.high.pc2) + 4)
       .attr('fill', (d) => d.color)
       .text((d) => d.name);
+
+    // Built-in annotation: always surface the molecule whose low→high shift
+    // is largest, since that's this scene's central claim.
+    gAnnotations.attr('transform', `translate(${margin.left},${margin.top})`);
+    const focus = molecules.reduce(
+      (best, m) => (!best || (m.shiftMagnitude ?? 0) > (best.shiftMagnitude ?? 0) ? m : best),
+      null
+    );
+    if (focus) {
+      const hx = x(focus.high.pc1);
+      const hy = y(focus.high.pc2);
+      drawAnnotation(gAnnotations, {
+        x: hx,
+        y: hy,
+        dx: hx > innerW / 2 ? -196 : 22,
+        dy: hy > innerH / 2 ? -84 : 22,
+        title: 'Largest perceptual shift',
+        text: [focus.name, `shift magnitude ${fmt(focus.shiftMagnitude)}`],
+      });
+    }
   }
 
   Promise.all([

@@ -11,10 +11,14 @@ const nextBtn = document.getElementById('next-btn');
 const progressEl = document.getElementById('scene-progress');
 const dotsEl = document.getElementById('nav-dots');
 
-let current = 0;
-let activeScene = null;
-let mode = 'primary';
-let lastPrimaryIndex = 0;
+// --- Parameters -----------------------------------------------------------
+// These are the state variables that control which scene is shown and how.
+// Every scene render is a pure function of this state.
+let current = 0;            // index into primaryScenes (0..2)
+let activeScene = null;     // the currently mounted scene module
+let mode = 'primary';       // 'primary' (scenes 1-3) or 'detail' (scene 4)
+let lastPrimaryIndex = 0;   // remembers where to return after a detail dive
+// ---------------------------------------------------------------------------
 
 function pad(n) {
   return String(n).padStart(2, '0');
@@ -115,6 +119,12 @@ function goPrev() {
   if (current > 0) renderScene(current - 1);
 }
 
+// --- Triggers ---------------------------------------------------------------
+// UI events that change the parameters above and re-render accordingly.
+// Each scene also registers its own triggers (sliders, toggles, clicks) that
+// update scene-local parameters; scene3's onSelectMolecule callback is a
+// trigger that changes main.js's own `mode`/`current` parameters, driving a
+// transition into the scene4 detail view.
 prevBtn.addEventListener('click', goPrev);
 nextBtn.addEventListener('click', goNext);
 
@@ -123,6 +133,7 @@ window.addEventListener('keydown', (e) => {
   if (e.key === 'ArrowLeft') goPrev();
   if (e.key === 'Escape' && mode === 'detail') goBackToPrimary();
 });
+// ---------------------------------------------------------------------------
 
 buildDots();
 renderScene(0);
