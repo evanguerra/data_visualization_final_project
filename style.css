@@ -241,7 +241,6 @@ button { font-family: inherit; }
   flex: 0 0 auto;
 }
 
-/* toggle */
 .toggle-row {
   display: flex;
   align-items: center;
@@ -369,6 +368,55 @@ button { font-family: inherit; }
   font-size: 9.5px;
 }
 
+.scene__viz--split {
+  display: flex;
+  height: 100%;
+}
+
+.bar-chart-col {
+  flex: 1 1 50%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 12px 8px;
+}
+
+.bar-chart-col:first-child {
+  border-right: 1px solid var(--line);
+}
+
+.bar-chart-col__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  text-align: center;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+
+.bar-chart-col__body {
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+}
+
+.bar {
+  cursor: pointer;
+  transition: opacity 0.1s ease;
+}
+.bar:hover,
+.bar.is-selected {
+  opacity: 0.75;
+  stroke: var(--ink);
+  stroke-width: 1px;
+}
+
+.legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 .placeholder-scene {
   width: 100%;
   height: 100%;
@@ -405,4 +453,3 @@ button { font-family: inherit; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
-
