@@ -1,5 +1,5 @@
 const DATA_URL = 'data/pca_data.json';
-const N_VECTORS_SHOWN = 12;
+const N_VECTORS_SHOWN = 12; // how many descriptor loading arrows to draw in the biplot
 
 let resizeObserver = null;
 let tooltipEl = null;
@@ -27,7 +27,7 @@ function buildDom(container) {
             not on any single note, but in overall perceptual profile.
           </p>
         </div>
- 
+
         <div class="panel-block">
           <p class="panel-block__label">Color · Molecular weight</p>
           <div class="legend-scale" id="s1-legend-gradient"></div>
@@ -39,21 +39,21 @@ function buildDom(container) {
             <span>Mixture / no single CID</span>
           </div>
         </div>
- 
+
         <div class="panel-block">
           <p class="panel-block__label">Size · Mean rated intensity</p>
           <p class="scene__desc" style="margin:0;">
             Larger points were rated more strongly, on average, across all descriptors.
           </p>
         </div>
- 
+
         <div class="panel-block">
           <div class="toggle-row">
             <span>Show descriptor vectors (biplot)</span>
             <button class="toggle-switch" id="s1-biplot-toggle" type="button" aria-pressed="false"></button>
           </div>
         </div>
- 
+
         <div class="panel-block" style="flex: 1 1 auto;">
           <p class="panel-block__label">Reading</p>
           <div class="readout" id="s1-readout">
@@ -66,6 +66,10 @@ function buildDom(container) {
 }
 
 function init(container, { onNext, onPrev } = {}) {
+  if (typeof d3 === 'undefined') {
+    throw new Error('d3 is not loaded — check that assets/d3.min.js is present and loads before main.js');
+  }
+
   buildDom(container);
 
   const vizEl = container.querySelector('#s1-viz');
@@ -146,7 +150,6 @@ function init(container, { onNext, onPrev } = {}) {
       .domain([pc2Extent[0] - padY, pc2Extent[1] + padY])
       .range([innerH, 0]);
 
-    // --- axes ---------------------------------------------------------
     gAxes.attr('transform', `translate(${margin.left},${margin.top})`);
     gAxes.selectAll('*').remove();
 
