@@ -1,5 +1,5 @@
 const DATA_URL = 'data/pca_data.json';
-const N_VECTORS_SHOWN = 12; // how many descriptor loading arrows to draw in the biplot
+const N_VECTORS_SHOWN = 12;
 
 let resizeObserver = null;
 let tooltipEl = null;
