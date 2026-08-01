@@ -14,55 +14,72 @@ function fmt(n, digits = 2) {
 function buildDom(container) {
   container.innerHTML = `
     <div class="scene" id="scene1">
-      <div class="scene__viz" id="s1-viz">
-        <svg id="s1-svg" width="100%" height="100%"></svg>
-        <div class="viz-tooltip" id="s1-tooltip"></div>
-      </div>
-      <aside class="scene__panel">
-        <div>
+      <div class="scene__intro">
+        <div class="scene__intro-text">
           <div class="scene__eyebrow">Scene 01 · Perceptual map</div>
           <h1 class="scene__title">Odor Space</h1>
           <p class="scene__desc">
-            160 stimuli, each rated by panelists across 146 odor descriptors
-            reduced to two dimensions by PCA.
-            Nearby points smell similar across the full descriptor set —
-            not on any single note, but in overall perceptual profile.
+            160 stimuli, each rated by panelists across 146 odor descriptors,
+            reduced to two dimensions. Nearby points smell similar overall —
+            not on any single note, but across the whole descriptor profile.
           </p>
         </div>
-
-        <div class="panel-block">
-          <p class="panel-block__label">Color · Molecular weight</p>
-          <div class="legend-scale" id="s1-legend-gradient"></div>
-          <div class="legend-scale-labels" id="s1-legend-labels">
-            <span>—</span><span>—</span>
-          </div>
-          <div class="legend-swatch-row">
-            <span class="legend-swatch" style="background:var(--accent-magenta)"></span>
-            <span>Mixture / no single CID</span>
-          </div>
-        </div>
-
-        <div class="panel-block">
-          <p class="panel-block__label">Size · Mean rated intensity</p>
-          <p class="scene__desc" style="margin:0;">
-            Larger points were rated more strongly, on average, across all descriptors.
-          </p>
-        </div>
-
-        <div class="panel-block">
-          <div class="toggle-row">
-            <span>Show descriptor vectors (biplot)</span>
-            <button class="toggle-switch" id="s1-biplot-toggle" type="button" aria-pressed="false"></button>
-          </div>
-        </div>
-
-        <div class="panel-block" style="flex: 1 1 auto;">
+        <div class="scene__reading">
           <p class="panel-block__label">Reading</p>
           <div class="readout" id="s1-readout">
             <p class="readout-empty">Hover or click a point to inspect it.</p>
           </div>
         </div>
-      </aside>
+      </div>
+
+      <div class="scene__body">
+        <div class="scene__viz" id="s1-viz">
+          <svg id="s1-svg" width="100%" height="100%"></svg>
+          <div class="viz-tooltip" id="s1-tooltip"></div>
+        </div>
+        <aside class="scene__controls">
+          <div class="panel-block" style="border-top:none; padding-top:0;">
+            <p class="panel-block__label">Color · Molecular weight</p>
+            <div class="legend-scale" id="s1-legend-gradient"></div>
+            <div class="legend-scale-labels" id="s1-legend-labels">
+              <span>—</span><span>—</span>
+            </div>
+            <div class="legend-swatch-row">
+              <span class="legend-swatch" style="background:var(--accent-magenta)"></span>
+              <span>Mixture / no single CID</span>
+            </div>
+          </div>
+
+          <div class="panel-block">
+            <p class="panel-block__label">Size · Mean rated intensity</p>
+            <p class="scene__desc" style="margin:0; max-width:none;">
+              Larger points were rated more strongly, on average, across all descriptors.
+            </p>
+          </div>
+
+          <div class="panel-block">
+            <div class="toggle-row">
+              <span>Show what shapes this map</span>
+              <button class="toggle-switch" id="s1-biplot-toggle" type="button" aria-pressed="false"></button>
+            </div>
+            <p class="toggle-help">
+              Adds an arrow for each of the strongest descriptors (a
+              "biplot"). Each arrow points toward higher ratings of that
+              descriptor — longer arrows have more influence on the map.
+            </p>
+          </div>
+
+          <div class="panel-block">
+            <p class="panel-block__label">About the axes</p>
+            <p class="legend-note" style="margin-top:0;">
+              PC1 and PC2 are computed dimensions that summarize all 146
+              descriptor ratings as simply as possible. The percentage shown
+              is how much of the total rating variation that axis alone
+              explains.
+            </p>
+          </div>
+        </aside>
+      </div>
     </div>
   `;
 }
@@ -123,7 +140,7 @@ function init(container, { onNext, onPrev } = {}) {
     tooltipEl.style.left = `${x}px`;
     tooltipEl.style.top = `${y}px`;
     tooltipEl.style.opacity = 1;
-    tooltipEl.innerHTML = `${point.name || point.stimulus} <span style="opacity:.6">(${point.concentration})</span>`;
+    tooltipEl.innerHTML = `${point.name || point.stimulus}${point.concentration ? ` <span style="opacity:.6">· ${point.concentration} concentration</span>` : ''}`;
   }
 
   function hideTooltip() {
@@ -174,17 +191,19 @@ function init(container, { onNext, onPrev } = {}) {
       .attr('y1', y(0)).attr('y2', y(0))
       .attr('stroke', 'var(--line)').attr('stroke-dasharray', '2,3');
 
-    gAxes.append('text')
-      .attr('class', 'axis-label')
-      .attr('x', innerW / 2).attr('y', innerH + 36)
+    const xLabel = gAxes.append('text')
       .attr('text-anchor', 'middle')
-      .text(`PC1 — ${data.meta.pc1_variance_pct}% of variance`);
+      .attr('x', innerW / 2).attr('y', innerH + 36);
+    xLabel.append('tspan').attr('class', 'axis-label-title').text('PC1');
+    xLabel.append('tspan').attr('class', 'axis-label-sub').attr('dx', 6)
+      .text(`(${data.meta.pc1_variance_pct}% of variance)`);
 
-    gAxes.append('text')
-      .attr('class', 'axis-label')
+    const yLabel = gAxes.append('text')
       .attr('transform', `translate(${-38},${innerH / 2}) rotate(-90)`)
-      .attr('text-anchor', 'middle')
-      .text(`PC2 — ${data.meta.pc2_variance_pct}% of variance`);
+      .attr('text-anchor', 'middle');
+    yLabel.append('tspan').attr('class', 'axis-label-title').text('PC2');
+    yLabel.append('tspan').attr('class', 'axis-label-sub').attr('dx', 6)
+      .text(`(${data.meta.pc2_variance_pct}% of variance)`);
 
     gPoints.attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -247,10 +266,39 @@ function init(container, { onNext, onPrev } = {}) {
       .attr('x2', (d) => x(d.pc1 * vectorScale))
       .attr('y2', (d) => y(d.pc2 * vectorScale));
 
-    vecGroups.append('text')
+    // Declutter labels: several descriptors often point in similar
+    // directions, so their labels land on top of one another. Nudge
+    // overlapping labels apart vertically and draw a short leader line
+    // back to the true arrow tip whenever a label had to move.
+    const labelPoints = vectors.map((d) => ({
+      descriptor: d.descriptor,
+      rawX: x(d.pc1 * vectorScale * 1.08),
+      rawY: y(d.pc2 * vectorScale * 1.08),
+    }));
+    labelPoints.forEach((p) => { p.x = p.rawX; p.y = p.rawY; });
+    labelPoints.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < labelPoints.length; i++) {
+      if (labelPoints[i].y - labelPoints[i - 1].y < 11) {
+        labelPoints[i].y = labelPoints[i - 1].y + 11;
+      }
+    }
+
+    const gLabels = gVectors.selectAll('g.vector-label')
+      .data(labelPoints, (d) => d.descriptor)
+      .enter()
+      .append('g')
+      .attr('class', 'vector-label');
+
+    gLabels.filter((d) => Math.abs(d.y - d.rawY) > 2)
+      .append('line')
+      .attr('class', 'loading-vector-leader')
+      .attr('x1', (d) => d.rawX).attr('y1', (d) => d.rawY)
+      .attr('x2', (d) => d.x).attr('y2', (d) => d.y);
+
+    gLabels.append('text')
       .attr('class', 'loading-label')
-      .attr('x', (d) => x(d.pc1 * vectorScale * 1.08))
-      .attr('y', (d) => y(d.pc2 * vectorScale * 1.08))
+      .attr('x', (d) => d.x)
+      .attr('y', (d) => d.y)
       .text((d) => d.descriptor.split(',')[0]);
 
     // Built-in annotation (parameter-driven, not a hover effect): always

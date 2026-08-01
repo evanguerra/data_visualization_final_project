@@ -29,48 +29,51 @@ function fmt(n, digits = 1) {
 function buildDom(container) {
   container.innerHTML = `
     <div class="scene" id="scene4">
-      <div class="scene__viz" id="s4-viz">
-        <div class="bar-chart-row" style="padding: 20px 24px 8px;">
-          <div class="bar-chart-row__title" id="s4-title"></div>
-          <div class="bar-chart-row__body">
-            <svg id="s4-svg" width="100%" height="100%"></svg>
-          </div>
-        </div>
-        <div class="viz-tooltip" id="s4-tooltip"></div>
-      </div>
-      <aside class="scene__panel">
-        <div>
+      <div class="scene__intro">
+        <div class="scene__intro-text">
           <button class="back-link" id="s4-back" type="button">&larr; Back to atlas</button>
           <div class="scene__eyebrow" id="s4-eyebrow">Scene 04 · Explore a molecule</div>
           <h1 class="scene__title" id="s4-mol-title">—</h1>
           <p class="scene__desc" id="s4-mol-sub"></p>
         </div>
-
-        <div class="panel-block">
-          <p class="panel-block__label" id="s4-slider-label">Concentration: Low (step 1 / 6)</p>
-          <input type="range" id="s4-conc-slider" class="conc-slider" min="0" max="5" step="1" value="0" />
-          <div class="legend-scale-labels">
-            <span>Low</span><span>High</span>
-          </div>
-        </div>
-
-        <div class="panel-block">
-          <p class="panel-block__label">Trajectory category</p>
-          <div class="legend-list" id="s4-legend"></div>
-        </div>
-
-        <div class="panel-block">
-          <p class="panel-block__label">Biggest movers</p>
-          <div class="readout" id="s4-movers"></div>
-        </div>
-
-        <div class="panel-block" style="flex: 1 1 auto;">
+        <div class="scene__reading">
           <p class="panel-block__label">Reading</p>
           <div class="readout" id="s4-readout">
             <p class="readout-empty">Hover or click a bar to inspect it.</p>
           </div>
         </div>
-      </aside>
+      </div>
+
+      <div class="scene__body">
+        <div class="scene__viz" id="s4-viz">
+          <div class="bar-chart-row" style="padding: 20px 24px 8px;">
+            <div class="bar-chart-row__title" id="s4-title"></div>
+            <div class="bar-chart-row__body">
+              <svg id="s4-svg" width="100%" height="100%"></svg>
+            </div>
+          </div>
+          <div class="viz-tooltip" id="s4-tooltip"></div>
+        </div>
+        <aside class="scene__controls">
+          <div class="panel-block" style="border-top:none; padding-top:0;">
+            <p class="panel-block__label" id="s4-slider-label">Concentration: Low (step 1 / 6)</p>
+            <input type="range" id="s4-conc-slider" class="conc-slider" min="0" max="5" step="1" value="0" />
+            <div class="legend-scale-labels">
+              <span>Low</span><span>High</span>
+            </div>
+          </div>
+
+          <div class="panel-block">
+            <p class="panel-block__label">Trajectory category</p>
+            <div class="legend-list" id="s4-legend"></div>
+          </div>
+
+          <div class="panel-block">
+            <p class="panel-block__label">Biggest movers</p>
+            <div class="readout" id="s4-movers"></div>
+          </div>
+        </aside>
+      </div>
     </div>
   `;
 }
@@ -190,7 +193,7 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
     const colEl = svg.node().parentElement;
     const width = colEl.clientWidth;
     const height = colEl.clientHeight;
-    const margin = { top: 12, right: 20, bottom: 88, left: 52 };
+    const margin = { top: 12, right: 24, bottom: 92, left: 52 };
     const innerW = Math.max(10, width - margin.left - margin.right);
     const innerH = Math.max(10, height - margin.top - margin.bottom);
 
@@ -225,11 +228,11 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
       .attr('transform', `translate(0,${innerH})`)
       .call(d3.axisBottom(x).tickSize(4))
       .selectAll('text')
-      .attr('transform', 'rotate(-40)')
+      .attr('transform', 'rotate(-35)')
       .attr('text-anchor', 'end')
       .attr('dx', '-0.4em')
       .attr('dy', '0.4em')
-      .text((d) => (d.length > 20 ? d.slice(0, 19) + '…' : d));
+      .text((d) => (d.length > 24 ? d.slice(0, 23) + '…' : d));
 
     const bars = g.select('.layer-bars')
       .selectAll('rect.bar')

@@ -22,37 +22,53 @@ function fmt(n, digits = 2) {
 function buildDom(container) {
   container.innerHTML = `
     <div class="scene" id="scene3">
-      <div class="scene__viz" id="s3-viz">
-        <svg id="s3-svg" width="100%" height="100%"></svg>
-        <div class="viz-tooltip" id="s3-tooltip"></div>
-      </div>
-      <aside class="scene__panel">
-        <div>
+      <div class="scene__intro">
+        <div class="scene__intro-text">
           <div class="scene__eyebrow">Scene 03 · Paired concentrations</div>
           <h1 class="scene__title">Movement in Odor Space</h1>
           <p class="scene__desc">
-            Of the 160 stimuli, only 6 molecules were rated at both a low and
-            a high concentration. Each arrow traces how that molecule's
-            position in perceptual space shifts as concentration rises.
+            Of the 160 stimuli, only 6 molecules were rated at both a low
+            and a high concentration. Each arrow traces how that molecule's
+            position on the same map from Scene 01 shifts as concentration
+            rises.
           </p>
         </div>
-
-        <div class="panel-block">
-          <p class="panel-block__label">Molecules</p>
-          <div class="legend-list" id="s3-legend"></div>
-        </div>
-
-        <div class="panel-block">
+        <div class="scene__reading">
           <p class="panel-block__label">Reading</p>
-          <p class="scene__desc" style="margin:0 0 8px;">
-            Click any molecule — on the plot or in the list — to open its
-            full descriptor profile and slide through concentration.
-          </p>
           <div class="readout" id="s3-readout">
             <p class="readout-empty">Hover or click a point to inspect it.</p>
           </div>
         </div>
-      </aside>
+      </div>
+
+      <div class="scene__body">
+        <div class="scene__viz" id="s3-viz">
+          <svg id="s3-svg" width="100%" height="100%"></svg>
+          <div class="viz-tooltip" id="s3-tooltip"></div>
+        </div>
+        <aside class="scene__controls">
+          <div class="panel-block" style="border-top:none; padding-top:0;">
+            <p class="panel-block__label">Circle style</p>
+            <div class="legend-swatch-row">
+              <span class="legend-swatch legend-swatch--outline"></span>
+              <span>Low concentration</span>
+            </div>
+            <div class="legend-swatch-row">
+              <span class="legend-swatch legend-swatch--filled"></span>
+              <span>High concentration</span>
+            </div>
+          </div>
+
+          <div class="panel-block">
+            <p class="panel-block__label">Molecules</p>
+            <div class="legend-list" id="s3-legend"></div>
+            <p class="legend-note">
+              Click any molecule — on the plot or in this list — to open its
+              full descriptor profile and slide through concentration.
+            </p>
+          </div>
+        </aside>
+      </div>
     </div>
   `;
 }
@@ -201,17 +217,17 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       .attr('y1', y(0)).attr('y2', y(0))
       .attr('stroke', 'var(--line)').attr('stroke-dasharray', '2,3');
 
-    gAxes.append('text')
-      .attr('class', 'axis-label')
-      .attr('x', innerW / 2).attr('y', innerH + 36)
+    const xLabel = gAxes.append('text')
       .attr('text-anchor', 'middle')
-      .text('PC1');
+      .attr('x', innerW / 2).attr('y', innerH + 36);
+    xLabel.append('tspan').attr('class', 'axis-label-title').text('PC1');
+    xLabel.append('tspan').attr('class', 'axis-label-sub').attr('dx', 6).text('(from Scene 01)');
 
-    gAxes.append('text')
-      .attr('class', 'axis-label')
+    const yLabel = gAxes.append('text')
       .attr('transform', `translate(${-38},${innerH / 2}) rotate(-90)`)
-      .attr('text-anchor', 'middle')
-      .text('PC2');
+      .attr('text-anchor', 'middle');
+    yLabel.append('tspan').attr('class', 'axis-label-title').text('PC2');
+    yLabel.append('tspan').attr('class', 'axis-label-sub').attr('dx', 6).text('(from Scene 01)');
 
     // per-molecule arrowhead markers, colored to match
     defs.selectAll('marker.arrowhead')
@@ -276,7 +292,7 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       .classed('is-selected', (d) => d.molecule.cid === selectedCid)
       .on('mouseenter', (event, d) => {
         renderReadout(d);
-        moveTooltip(event, `${d.molecule.name} <span style="opacity:.6">(${d.point.concentration})</span>`);
+        moveTooltip(event, `${d.molecule.name} <span style="opacity:.6">· ${d.point.concentration} concentration</span>`);
       })
       .on('mousemove', (event) => moveTooltip(event))
       .on('mouseleave', () => {
@@ -286,16 +302,48 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       })
       .on('click', (event, d) => selectMolecule(d.molecule));
 
-    // molecule name labels near the high point
-    const labels = gPoints.selectAll('text.molecule-label')
-      .data(molecules, (d) => d.cid);
+    // Molecule name labels near the high point. Several molecules can sit
+    // close together, so labels are decluttered (nudged apart vertically)
+    // with a short leader line back to the true point whenever moved —
+    // same technique as the biplot labels in Scene 01, for consistency.
+    const labelData = molecules.map((m) => ({
+      cid: m.cid,
+      name: m.name,
+      color: m.color,
+      rawX: x(m.high.pc1) + 10,
+      rawY: y(m.high.pc2) + 4,
+    }));
+    labelData.forEach((p) => { p.x = p.rawX; p.y = p.rawY; });
+    labelData.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < labelData.length; i++) {
+      if (labelData[i].y - labelData[i - 1].y < 14) {
+        labelData[i].y = labelData[i - 1].y + 14;
+      }
+    }
 
-    labels.enter()
-      .append('text')
-      .attr('class', 'molecule-label')
-      .merge(labels)
-      .attr('x', (d) => x(d.high.pc1) + 10)
-      .attr('y', (d) => y(d.high.pc2) + 4)
+    const labelGroups = gPoints.selectAll('g.molecule-label-group')
+      .data(labelData, (d) => d.cid);
+
+    labelGroups.exit().remove();
+
+    const labelGroupsEnter = labelGroups.enter()
+      .append('g')
+      .attr('class', 'molecule-label-group');
+
+    labelGroupsEnter.append('line').attr('class', 'molecule-label-leader');
+    labelGroupsEnter.append('text').attr('class', 'molecule-label');
+
+    const labelGroupsMerged = labelGroupsEnter.merge(labelGroups);
+
+    labelGroupsMerged.select('line.molecule-label-leader')
+      .style('display', (d) => (Math.abs(d.y - d.rawY) > 2 ? null : 'none'))
+      .attr('x1', (d) => d.rawX - 10).attr('y1', (d) => d.rawY - 4)
+      .attr('x2', (d) => d.x).attr('y2', (d) => d.y)
+      .attr('stroke', (d) => d.color);
+
+    labelGroupsMerged.select('text.molecule-label')
+      .attr('x', (d) => d.x)
+      .attr('y', (d) => d.y)
       .attr('fill', (d) => d.color)
       .text((d) => d.name);
 

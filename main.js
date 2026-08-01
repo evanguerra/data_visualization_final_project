@@ -1,9 +1,10 @@
+import scene0 from './scene0.js';
 import scene1 from './scene1.js';
 import scene2 from './scene2.js';
 import scene3 from './scene3.js';
 import scene4 from './scene4.js';
 
-const primaryScenes = [scene1, scene2, scene3];
+const primaryScenes = [scene0, scene1, scene2, scene3];
 
 const root = document.getElementById('scene-root');
 const prevBtn = document.getElementById('prev-btn');

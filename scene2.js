@@ -30,53 +30,57 @@ function fmt(n, digits = 1) {
 function buildDom(container) {
   container.innerHTML = `
     <div class="scene" id="scene2">
-      <div class="scene__viz scene__viz--stack" id="s2-viz">
-        <div class="bar-chart-row">
-          <div class="bar-chart-row__title" id="s2-title-a"></div>
-          <div class="bar-chart-row__body">
-            <svg id="s2-svg-a" width="100%" height="100%"></svg>
-          </div>
-        </div>
-        <div class="bar-chart-row">
-          <div class="bar-chart-row__title" id="s2-title-b"></div>
-          <div class="bar-chart-row__body">
-            <svg id="s2-svg-b" width="100%" height="100%"></svg>
-          </div>
-        </div>
-        <div class="viz-tooltip" id="s2-tooltip"></div>
-      </div>
-      <aside class="scene__panel">
-        <div>
+      <div class="scene__intro">
+        <div class="scene__intro-text">
           <div class="scene__eyebrow">Scene 02 · Descriptor profiles</div>
           <h1 class="scene__title">Top Descriptors</h1>
           <p class="scene__desc">
             The ${N_BARS_SHOWN} highest-rated descriptors for each molecule at
-            low concentration. Drag the slider to watch each one rise or fall
-            as concentration increases toward high. Bar color shows the
-            descriptor's overall trajectory category.
+            low concentration. Smell isn't static — the same molecule can
+            read very differently depending on how much of it you're
+            smelling. Drag the slider to watch which descriptors survive,
+            emerge, or fade as concentration rises.
           </p>
         </div>
-
-        <div class="panel-block">
-          <p class="panel-block__label" id="s2-slider-label">Concentration: Low (step 1 / 6)</p>
-          <input type="range" id="s2-conc-slider" class="conc-slider" min="0" max="5" step="1" value="0" />
-          <div class="legend-scale-labels">
-            <span>Low</span><span>High</span>
-          </div>
-        </div>
-
-        <div class="panel-block">
-          <p class="panel-block__label">Trajectory category</p>
-          <div class="legend-list" id="s2-legend"></div>
-        </div>
-
-        <div class="panel-block" style="flex: 1 1 auto;">
+        <div class="scene__reading">
           <p class="panel-block__label">Reading</p>
           <div class="readout" id="s2-readout">
             <p class="readout-empty">Hover or click a bar to inspect it.</p>
           </div>
         </div>
-      </aside>
+      </div>
+
+      <div class="scene__body">
+        <div class="scene__viz scene__viz--stack" id="s2-viz">
+          <div class="bar-chart-row">
+            <div class="bar-chart-row__title" id="s2-title-a"></div>
+            <div class="bar-chart-row__body">
+              <svg id="s2-svg-a" width="100%" height="100%"></svg>
+            </div>
+          </div>
+          <div class="bar-chart-row">
+            <div class="bar-chart-row__title" id="s2-title-b"></div>
+            <div class="bar-chart-row__body">
+              <svg id="s2-svg-b" width="100%" height="100%"></svg>
+            </div>
+          </div>
+          <div class="viz-tooltip" id="s2-tooltip"></div>
+        </div>
+        <aside class="scene__controls">
+          <div class="panel-block" style="border-top:none; padding-top:0;">
+            <p class="panel-block__label" id="s2-slider-label">Concentration: Low (step 1 / 6)</p>
+            <input type="range" id="s2-conc-slider" class="conc-slider" min="0" max="5" step="1" value="0" />
+            <div class="legend-scale-labels">
+              <span>Low</span><span>High</span>
+            </div>
+          </div>
+
+          <div class="panel-block">
+            <p class="panel-block__label">Trajectory category</p>
+            <div class="legend-list" id="s2-legend"></div>
+          </div>
+        </aside>
+      </div>
     </div>
   `;
 }
@@ -184,7 +188,7 @@ function init(container, { onNext, onPrev } = {}) {
     const colEl = svgNode.parentElement;
     const width = colEl.clientWidth;
     const height = colEl.clientHeight;
-    const margin = { top: 10, right: 16, bottom: 76, left: 44 };
+    const margin = { top: 10, right: 20, bottom: 82, left: 52 };
     const innerW = Math.max(10, width - margin.left - margin.right);
     const innerH = Math.max(10, height - margin.top - margin.bottom);
 
@@ -219,11 +223,11 @@ function init(container, { onNext, onPrev } = {}) {
       .attr('transform', `translate(0,${innerH})`)
       .call(d3.axisBottom(x).tickSize(4))
       .selectAll('text')
-      .attr('transform', 'rotate(-40)')
+      .attr('transform', 'rotate(-35)')
       .attr('text-anchor', 'end')
       .attr('dx', '-0.4em')
       .attr('dy', '0.4em')
-      .text((d) => (d.length > 18 ? d.slice(0, 17) + '…' : d));
+      .text((d) => (d.length > 22 ? d.slice(0, 21) + '…' : d));
 
     const bars = g.select('.layer-bars')
       .selectAll('rect.bar')
