@@ -35,6 +35,12 @@ function buildDom(container) {
             Drag the slider to watch which descriptors survive, emerge, or
             fade as concentration rises.
           </p>
+          <p class="scene__takeaway">
+            <span class="scene__takeaway-label">Takeaway</span>
+            <span>A molecule's smell isn't fixed — raising the concentration
+            can make new descriptors emerge, established ones fade, or even
+            flip which note dominates. Drag the slider to see it happen.</span>
+          </p>
         </div>
       </div>
 
@@ -397,4 +403,4 @@ function destroy() {
   }
 }
 
-export default { id: 'scene2', init, destroy };
+export default { id: 'scene2', shortTitle: 'Descriptor Profiles', init, destroy };

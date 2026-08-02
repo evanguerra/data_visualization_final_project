@@ -62,4 +62,4 @@ function init(container) {
 
 function destroy() {}
 
-export default { id: 'scene0', init, destroy };
+export default { id: 'scene0', shortTitle: 'Overview', init, destroy };

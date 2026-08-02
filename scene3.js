@@ -32,6 +32,13 @@ function buildDom(container) {
             position on the same map from Scene 01 shifts as concentration
             rises.
           </p>
+          <p class="scene__takeaway">
+            <span class="scene__takeaway-label">Takeaway</span>
+            <span>Every one of these 6 molecules moves — concentration
+            reshapes a smell's position in the map, not just its
+            descriptors. Click an arrow to dig into one molecule's full
+            profile.</span>
+          </p>
         </div>
       </div>
 
@@ -422,4 +429,4 @@ function destroy() {
   }
 }
 
-export default { id: 'scene3', init, destroy };
+export default { id: 'scene3', shortTitle: 'Molecule Trajectories', init, destroy };

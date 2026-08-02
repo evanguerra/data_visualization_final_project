@@ -231,6 +231,34 @@ button { font-family: inherit; }
   max-width: 62ch;
 }
 
+/* Message-first callout: states the scene's takeaway up front, before the
+   reader starts exploring the chart themselves — the hallmark of an
+   interactive-slideshow narrative (point first, exploration second). */
+.scene__takeaway {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin: 12px 0 0;
+  padding: 9px 14px;
+  border-left: 3px solid var(--accent-blue);
+  background: var(--bg);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink);
+  max-width: 720px;
+}
+
+.scene__takeaway-label {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-blue);
+}
+
 .panel-block {
   border-top: 1px solid var(--line);
   padding-top: 16px;

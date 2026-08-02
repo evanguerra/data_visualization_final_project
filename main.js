@@ -1,3 +1,13 @@
+// Narrative structure: this site is an "interactive slideshow" (Segel &
+// Heer) — a fixed sequence of scenes (0 → 1 → 2 → 3) that the reader moves
+// through with Next/Back, but where each individual scene is fully
+// explorable (hover, click, slider) rather than locked down. Each scene
+// leads with a stated takeaway before inviting exploration, and the Next
+// button previews the upcoming scene's title so the path always reads as
+// one continuous, guided story rather than a menu of unrelated views.
+// Scene 3 also opens an optional drill-down interlude (Scene 4) for
+// whichever single molecule the reader clicks on — a short branch off the
+// main line that always returns to where the reader left off.
 import scene0 from './scene0.js';
 import scene1 from './scene1.js';
 import scene2 from './scene2.js';
@@ -71,7 +81,12 @@ function renderScene(index) {
   prevBtn.disabled = current === 0;
   prevBtn.textContent = '← Back';
   nextBtn.style.display = '';
-  nextBtn.textContent = current === primaryScenes.length - 1 ? 'Restart ↺' : 'Next →';
+  if (current === primaryScenes.length - 1) {
+    nextBtn.textContent = 'Restart ↺';
+  } else {
+    const upNext = primaryScenes[current + 1];
+    nextBtn.textContent = `Next: ${upNext.shortTitle || 'Continue'} →`;
+  }
   progressEl.textContent = `${pad(current + 1)} / ${pad(primaryScenes.length)}`;
   dotsEl.style.display = '';
   updateDots();

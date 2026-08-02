@@ -22,6 +22,12 @@ function buildDom(container) {
             reduced to two dimensions. Nearby points smell similar overall —
             not on any single note, but across the whole descriptor profile.
           </p>
+          <p class="scene__takeaway">
+            <span class="scene__takeaway-label">Takeaway</span>
+            <span>Position alone carries most of the story — points that land
+            near each other smell alike overall, without sharing one
+            standout descriptor. Try the map below yourself.</span>
+          </p>
         </div>
       </div>
 
@@ -272,4 +278,4 @@ function destroy() {
   }
 }
 
-export default { id: 'scene1', init, destroy };
+export default { id: 'scene1', shortTitle: 'Odor Space', init, destroy };
