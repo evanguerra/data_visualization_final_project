@@ -626,19 +626,21 @@ button { font-family: inherit; }
   stroke-width: 1.75px;
 }
 .annotation-note-bg {
-  fill: var(--ink);
-  opacity: 0.95;
+  fill: var(--bg-panel);
+  stroke: var(--line-strong);
+  stroke-width: 1px;
+  opacity: 0.98;
   rx: 4px;
   ry: 4px;
 }
 .annotation-note-title {
-  fill: var(--bg-panel);
+  fill: #000;
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 11.5px;
 }
 .annotation-note-label {
-  fill: var(--bg-panel);
+  fill: #000;
   font-family: var(--font-mono);
   font-size: 10.5px;
   opacity: 0.9;
