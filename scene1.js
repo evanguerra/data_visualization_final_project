@@ -24,12 +24,6 @@ function buildDom(container) {
             not on any single note, but across the whole descriptor profile.
           </p>
         </div>
-        <div class="scene__reading">
-          <p class="panel-block__label">Reading</p>
-          <div class="readout" id="s1-readout">
-            <p class="readout-empty">Hover or click a point to inspect it.</p>
-          </div>
-        </div>
       </div>
 
       <div class="scene__body">
@@ -38,7 +32,14 @@ function buildDom(container) {
           <div class="viz-tooltip" id="s1-tooltip"></div>
         </div>
         <aside class="scene__controls">
-          <div class="panel-block" style="border-top:none; padding-top:0;">
+          <div class="scene__reading">
+            <p class="panel-block__label">Reading</p>
+            <div class="readout" id="s1-readout">
+              <p class="readout-empty">Hover or click a point to inspect it.</p>
+            </div>
+          </div>
+
+          <div class="panel-block">
             <p class="panel-block__label">Color · Molecular weight</p>
             <div class="legend-scale" id="s1-legend-gradient"></div>
             <div class="legend-scale-labels" id="s1-legend-labels">

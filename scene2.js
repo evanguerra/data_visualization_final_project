@@ -42,12 +42,6 @@ function buildDom(container) {
             emerge, or fade as concentration rises.
           </p>
         </div>
-        <div class="scene__reading">
-          <p class="panel-block__label">Reading</p>
-          <div class="readout" id="s2-readout">
-            <p class="readout-empty">Hover or click a bar to inspect it.</p>
-          </div>
-        </div>
       </div>
 
       <div class="scene__body">
@@ -67,7 +61,14 @@ function buildDom(container) {
           <div class="viz-tooltip" id="s2-tooltip"></div>
         </div>
         <aside class="scene__controls">
-          <div class="panel-block" style="border-top:none; padding-top:0;">
+          <div class="scene__reading">
+            <p class="panel-block__label">Reading</p>
+            <div class="readout" id="s2-readout">
+              <p class="readout-empty">Hover or click a bar to inspect it.</p>
+            </div>
+          </div>
+
+          <div class="panel-block">
             <p class="panel-block__label" id="s2-slider-label">Concentration: Low (step 1 / 6)</p>
             <input type="range" id="s2-conc-slider" class="conc-slider" min="0" max="5" step="1" value="0" />
             <div class="legend-scale-labels">

@@ -157,26 +157,21 @@ button { font-family: inherit; }
   flex-direction: column;
 }
 
-/* Top info bar: this is the first thing the eye should hit — what the
-   scene is about, plus a live "Reading" box that always shows the current
-   selection. Both are above the fold, not buried in a side panel. */
+/* Top info bar: what the scene is about. The live "Reading" readout now
+   lives in the side control rail (see .scene__reading below), right next
+   to the legend/toggle/slider it's paired with. */
 .scene__intro {
   flex: 0 0 auto;
-  display: flex;
-  align-items: flex-start;
-  gap: 28px;
   padding: 22px 28px 20px;
   border-bottom: 1px solid var(--line);
   background: var(--bg-panel);
 }
 
 .scene__intro-text {
-  flex: 1 1 58%;
-  min-width: 0;
+  max-width: 720px;
 }
 
 .scene__reading {
-  flex: 0 0 320px;
   background: var(--bg);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-md);
@@ -622,12 +617,10 @@ button { font-family: inherit; }
 }
 
 @media (max-width: 760px) {
-  .scene__intro { flex-direction: column; }
-  .scene__reading { flex: 0 0 auto; width: 100%; }
   .scene__body { flex-direction: column; }
   .scene__controls {
     flex: 0 0 auto;
-    max-height: 34%;
+    max-height: 40%;
     border-left: none;
     border-top: 1px solid var(--line);
   }

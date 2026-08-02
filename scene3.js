@@ -33,12 +33,6 @@ function buildDom(container) {
             rises.
           </p>
         </div>
-        <div class="scene__reading">
-          <p class="panel-block__label">Reading</p>
-          <div class="readout" id="s3-readout">
-            <p class="readout-empty">Hover or click a point to inspect it.</p>
-          </div>
-        </div>
       </div>
 
       <div class="scene__body">
@@ -47,7 +41,14 @@ function buildDom(container) {
           <div class="viz-tooltip" id="s3-tooltip"></div>
         </div>
         <aside class="scene__controls">
-          <div class="panel-block" style="border-top:none; padding-top:0;">
+          <div class="scene__reading">
+            <p class="panel-block__label">Reading</p>
+            <div class="readout" id="s3-readout">
+              <p class="readout-empty">Hover or click a point to inspect it.</p>
+            </div>
+          </div>
+
+          <div class="panel-block">
             <p class="panel-block__label">Circle style</p>
             <div class="legend-swatch-row">
               <span class="legend-swatch legend-swatch--outline"></span>
