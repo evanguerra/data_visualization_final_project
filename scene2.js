@@ -1,7 +1,7 @@
 import { drawAnnotation } from './annotation.js';
 
 const DATA_URL = 'data/trajectories.json';
-const N_BARS_SHOWN = 14;
+const N_BARS_SHOWN = 20;
 
 const CATEGORY_LABELS = {
   grows: 'Grows low → high',
@@ -28,10 +28,12 @@ function buildDom(container) {
           <h1 class="scene__title">Top Descriptors</h1>
           <p class="scene__desc">
             The ${N_BARS_SHOWN} highest-rated descriptors for each molecule at
-            low concentration. Smell isn't static — the same molecule can
-            read very differently depending on how much of it you're
-            smelling. Drag the slider to watch which descriptors survive,
-            emerge, or fade as concentration rises.
+            low concentration — plus any descriptor that clearly emerges or
+            disappears as concentration rises, even if it wasn't rated highly
+            to begin with. Smell isn't static — the same molecule can read
+            very differently depending on how much of it you're smelling.
+            Drag the slider to watch which descriptors survive, emerge, or
+            fade as concentration rises.
           </p>
         </div>
       </div>
@@ -70,13 +72,17 @@ function buildDom(container) {
 
           <div class="panel-block">
             <p class="panel-block__label">Color · Change from low to high</p>
-            <div class="legend-scale" style="background: linear-gradient(90deg, #1F5578, #DCE9F2, #F5E4C7, #B9701E);"></div>
+            <div class="legend-scale" style="background: linear-gradient(90deg, #123C56, #7FAFC9, #E7C27A, #8A4A0E);"></div>
             <div class="legend-scale-labels">
               <span>Shrinks a lot</span><span>Little change</span><span>Grows a lot</span>
             </div>
             <div class="legend-swatch-row">
               <span class="legend-swatch" style="background:var(--accent-magenta)"></span>
               <span>Emergent (near-zero at low)</span>
+            </div>
+            <div class="legend-swatch-row">
+              <span class="legend-swatch" style="background:var(--accent-teal)"></span>
+              <span>Fading (near-zero at high)</span>
             </div>
           </div>
         </aside>
@@ -106,14 +112,18 @@ function init(container, { onNext, onPrev } = {}) {
 
   // Bar color encodes how much a descriptor's rating changes from low to
   // high concentration (a gradient), not just whether it grows or shrinks.
-  // "Emergent" descriptors are still always pink — that's a distinct,
-  // notable pattern worth calling out on its own regardless of magnitude.
-  const growColorScale = d3.interpolateRgb('#F5E4C7', '#B9701E');
-  const shrinkColorScale = d3.interpolateRgb('#DCE9F2', '#1F5578');
+  // "Emergent" and "fading" descriptors are still always their own fixed
+  // colors — those are distinct, notable patterns worth calling out on
+  // their own regardless of magnitude. Colors are deepened at both ends
+  // (with a floor at the low-change end) so nothing washes out against the
+  // page background.
+  const growColorScale = d3.interpolateRgb('#E7C27A', '#8A4A0E');
+  const shrinkColorScale = d3.interpolateRgb('#7FAFC9', '#123C56');
   let maxAbsDelta = 1;
 
   function changeColor(delta) {
-    const t = Math.min(1, Math.abs(delta) / maxAbsDelta);
+    const raw = Math.min(1, Math.abs(delta) / maxAbsDelta);
+    const t = 0.12 + 0.88 * raw;
     return delta >= 0 ? growColorScale(t) : shrinkColorScale(t);
   }
 
@@ -140,11 +150,32 @@ function init(container, { onNext, onPrev } = {}) {
   function descriptorsFor(molecule) {
     if (!fixedDescriptors.has(molecule.name)) {
       const lowStep = molecule.steps[0];
-      const top = Object.entries(lowStep.values)
+      const categories = molecule.descriptor_categories || {};
+
+      // Always show descriptors with a distinct emerging/fading pattern —
+      // near-zero at one concentration and clearly present at the other —
+      // even if their raw intensity wouldn't otherwise make the top N.
+      const mustInclude = Object.keys(lowStep.values).filter(
+        (descriptor) => categories[descriptor] === 'emergent' || categories[descriptor] === 'fading'
+      );
+
+      const ranked = Object.entries(lowStep.values)
         .sort((a, b) => b[1] - a[1])
-        .slice(0, N_BARS_SHOWN)
         .map(([descriptor]) => descriptor);
-      fixedDescriptors.set(molecule.name, top);
+
+      const combined = [...mustInclude];
+      for (const descriptor of ranked) {
+        if (combined.length >= N_BARS_SHOWN) break;
+        if (!combined.includes(descriptor)) combined.push(descriptor);
+      }
+
+      // Keep bars ordered by low-concentration intensity, so the chart
+      // still reads left-to-right as "strongest at low concentration
+      // first," with emerging/fading descriptors falling wherever their
+      // low-concentration rating puts them.
+      combined.sort((a, b) => (lowStep.values[b] ?? 0) - (lowStep.values[a] ?? 0));
+
+      fixedDescriptors.set(molecule.name, combined);
     }
     return fixedDescriptors.get(molecule.name);
   }
@@ -256,7 +287,11 @@ function init(container, { onNext, onPrev } = {}) {
       .attr('height', 0);
 
     barsEnter.merge(bars)
-      .attr('fill', (d) => (d.category === 'emergent' ? 'var(--accent-magenta)' : changeColor(d.delta)))
+      .attr('fill', (d) => {
+        if (d.category === 'emergent') return 'var(--accent-magenta)';
+        if (d.category === 'fading') return 'var(--accent-teal)';
+        return changeColor(d.delta);
+      })
       .classed('is-selected', (d) => selected && selected.moleculeName === molecule.name && selected.descriptor === d.descriptor)
       .on('mouseenter', (event, d) => {
         renderReadout(d, molecule);
