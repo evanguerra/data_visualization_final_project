@@ -3,14 +3,6 @@ import { drawAnnotation } from './annotation.js';
 const DATA_URL = 'data/trajectories.json';
 const N_BARS_SHOWN = 14;
 
-const CATEGORY_COLORS = {
-  grows: 'var(--accent-amber)',
-  emergent: 'var(--accent-magenta)',
-  shrinks: 'var(--accent-blue)',
-  fading: 'var(--ink-faint)',
-  flat: 'var(--line-strong)',
-};
-
 const CATEGORY_LABELS = {
   grows: 'Grows low → high',
   emergent: 'Emergent (near-zero at low)',
@@ -77,22 +69,20 @@ function buildDom(container) {
           </div>
 
           <div class="panel-block">
-            <p class="panel-block__label">Trajectory category</p>
-            <div class="legend-list" id="s2-legend"></div>
+            <p class="panel-block__label">Color · Change from low to high</p>
+            <div class="legend-scale" style="background: linear-gradient(90deg, #1F5578, #DCE9F2, #F5E4C7, #B9701E);"></div>
+            <div class="legend-scale-labels">
+              <span>Shrinks a lot</span><span>Little change</span><span>Grows a lot</span>
+            </div>
+            <div class="legend-swatch-row">
+              <span class="legend-swatch" style="background:var(--accent-magenta)"></span>
+              <span>Emergent (near-zero at low)</span>
+            </div>
           </div>
         </aside>
       </div>
     </div>
   `;
-}
-
-function buildLegend(container) {
-  container.innerHTML = Object.entries(CATEGORY_LABELS).map(([key, label]) => `
-    <div class="legend-swatch-row">
-      <span class="legend-swatch" style="background:${CATEGORY_COLORS[key]}"></span>
-      <span>${label}</span>
-    </div>
-  `).join('');
 }
 
 function init(container, { onNext, onPrev } = {}) {
@@ -101,7 +91,6 @@ function init(container, { onNext, onPrev } = {}) {
   }
 
   buildDom(container);
-  buildLegend(container.querySelector('#s2-legend'));
 
   const vizEl = container.querySelector('#s2-viz');
   const svgA = d3.select(container.querySelector('#s2-svg-a'));
@@ -114,6 +103,19 @@ function init(container, { onNext, onPrev } = {}) {
   const sliderLabel = container.querySelector('#s2-slider-label');
 
   tooltipEls = { el: tooltipEl };
+
+  // Bar color encodes how much a descriptor's rating changes from low to
+  // high concentration (a gradient), not just whether it grows or shrinks.
+  // "Emergent" descriptors are still always pink — that's a distinct,
+  // notable pattern worth calling out on its own regardless of magnitude.
+  const growColorScale = d3.interpolateRgb('#F5E4C7', '#B9701E');
+  const shrinkColorScale = d3.interpolateRgb('#DCE9F2', '#1F5578');
+  let maxAbsDelta = 1;
+
+  function changeColor(delta) {
+    const t = Math.min(1, Math.abs(delta) / maxAbsDelta);
+    return delta >= 0 ? growColorScale(t) : shrinkColorScale(t);
+  }
 
   let data = null;
   let molecules = [];
@@ -149,10 +151,15 @@ function init(container, { onNext, onPrev } = {}) {
 
   function entriesFor(molecule) {
     const step = molecule.steps[stepIndex];
+    const lowStep = molecule.steps[0];
+    const highStep = molecule.steps[molecule.steps.length - 1];
     const descriptors = descriptorsFor(molecule);
     return descriptors.map((descriptor) => ({
       descriptor,
       value: step.values[descriptor],
+      lowValue: lowStep.values[descriptor],
+      highValue: highStep.values[descriptor],
+      delta: (highStep.values[descriptor] ?? 0) - (lowStep.values[descriptor] ?? 0),
       category: molecule.descriptor_categories[descriptor] || 'flat',
     }));
   }
@@ -166,6 +173,7 @@ function init(container, { onNext, onPrev } = {}) {
       <div class="readout__name">${entry.descriptor}</div>
       <div class="readout__row"><span>Molecule</span><span>${molecule.name}</span></div>
       <div class="readout__row"><span>Rating (${molecule.steps[stepIndex].label})</span><span>${fmt(entry.value)}</span></div>
+      <div class="readout__row"><span>Change (low → high)</span><span>${fmt(entry.lowValue)} → ${fmt(entry.highValue)}</span></div>
       <div class="readout__row"><span>Trajectory</span><span>${CATEGORY_LABELS[entry.category] || entry.category}</span></div>
     `;
   }
@@ -248,7 +256,7 @@ function init(container, { onNext, onPrev } = {}) {
       .attr('height', 0);
 
     barsEnter.merge(bars)
-      .attr('fill', (d) => CATEGORY_COLORS[d.category] || 'var(--line-strong)')
+      .attr('fill', (d) => (d.category === 'emergent' ? 'var(--accent-magenta)' : changeColor(d.delta)))
       .classed('is-selected', (d) => selected && selected.moleculeName === molecule.name && selected.descriptor === d.descriptor)
       .on('mouseenter', (event, d) => {
         renderReadout(d, molecule);
@@ -275,18 +283,17 @@ function init(container, { onNext, onPrev } = {}) {
       .attr('y', (d) => y(d.value))
       .attr('height', (d) => innerH - y(d.value));
 
-    // Built-in annotation: call out the descriptor whose trajectory best
-    // makes this scene's point (an "emergent" descriptor if this molecule
-    // has one, otherwise the strongest "grows" descriptor). Position
+    // Built-in annotation: call out whichever descriptor changes the most
+    // from low to high concentration — the biggest swing in either
+    // direction — since that's this scene's central point. Position
     // tracks the bar's live height as the concentration slider moves.
     let gAnn = g.select('g.layer-annotations');
     if (gAnn.empty()) gAnn = g.append('g').attr('class', 'layer-annotations');
 
-    const emergent = entries.filter((e) => e.category === 'emergent');
-    const pool = emergent.length ? emergent : entries.filter((e) => e.category === 'grows');
-    const focus = pool.length
-      ? pool.reduce((best, e) => (!best || e.value > best.value ? e : best), null)
-      : null;
+    const focus = entries.reduce(
+      (best, e) => (!best || Math.abs(e.delta) > Math.abs(best.delta) ? e : best),
+      null
+    );
 
     if (focus) {
       const bx = x(focus.descriptor) + x.bandwidth() / 2;
@@ -296,10 +303,10 @@ function init(container, { onNext, onPrev } = {}) {
         y: by,
         dx: bx > innerW / 2 ? -184 : 16,
         dy: -72,
-        title: CATEGORY_LABELS[focus.category],
+        title: 'Changes the most',
         text: [
           focus.descriptor,
-          `${fmt(focus.value)} at ${molecule.steps[stepIndex].label.toLowerCase()} conc.`,
+          `${fmt(focus.lowValue)} → ${fmt(focus.highValue)} (low → high)`,
         ],
       });
     } else {
@@ -327,6 +334,15 @@ function init(container, { onNext, onPrev } = {}) {
     .then((json) => {
       data = json;
       molecules = data.molecules || [];
+      maxAbsDelta = molecules.reduce((max, m) => {
+        const low = m.steps[0].values;
+        const high = m.steps[m.steps.length - 1].values;
+        Object.keys(low).forEach((descriptor) => {
+          const delta = Math.abs((high[descriptor] ?? 0) - (low[descriptor] ?? 0));
+          if (delta > max) max = delta;
+        });
+        return max;
+      }, 0) || 1;
       updateSliderLabel();
       render();
     })
