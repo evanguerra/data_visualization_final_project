@@ -1,7 +1,7 @@
 import { drawAnnotation } from './annotation.js';
 
 const DATA_URL = 'data/trajectories.json';
-const N_BARS_SHOWN = 16;
+const N_BARS_SHOWN = 20;
 
 const CATEGORY_COLORS = {
   grows: 'var(--accent-amber)',
@@ -39,8 +39,8 @@ function buildDom(container) {
       </div>
 
       <div class="scene__body">
-        <div class="scene__viz" id="s4-viz">
-          <div class="bar-chart-row" style="padding: 20px 24px 8px;">
+        <div class="scene__viz scene__viz--stack" id="s4-viz">
+          <div class="bar-chart-row" style="flex: 1 1 100%; padding: 20px 24px 8px;">
             <div class="bar-chart-row__title" id="s4-title"></div>
             <div class="bar-chart-row__body">
               <svg id="s4-svg" width="100%" height="100%"></svg>
@@ -131,10 +131,32 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
 
   function computeFixedDescriptors() {
     const lowStep = molecule.steps[0];
-    fixedDescriptors = Object.entries(lowStep.values)
+    const categories = molecule.descriptor_categories || {};
+
+    // Always show descriptors with a distinct emerging/fading pattern —
+    // near-zero at one concentration and clearly present at the other —
+    // even if their raw intensity wouldn't otherwise make the top N.
+    const mustInclude = Object.keys(lowStep.values).filter(
+      (descriptor) => categories[descriptor] === 'emergent' || categories[descriptor] === 'fading'
+    );
+
+    const ranked = Object.entries(lowStep.values)
       .sort((a, b) => b[1] - a[1])
-      .slice(0, N_BARS_SHOWN)
       .map(([descriptor]) => descriptor);
+
+    const combined = [...mustInclude];
+    for (const descriptor of ranked) {
+      if (combined.length >= N_BARS_SHOWN) break;
+      if (!combined.includes(descriptor)) combined.push(descriptor);
+    }
+
+    // Keep bars ordered by low-concentration intensity, so the chart still
+    // reads left-to-right as "strongest at low concentration first," with
+    // emerging/fading descriptors falling wherever their low-concentration
+    // rating puts them.
+    combined.sort((a, b) => (lowStep.values[b] ?? 0) - (lowStep.values[a] ?? 0));
+
+    fixedDescriptors = combined;
   }
 
   function entriesForStep() {
@@ -326,7 +348,7 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
 
       titleEl.textContent = molecule.name;
       molTitleEl.textContent = molecule.name;
-      molSubEl.textContent = `CAS ${molecule.cas || '—'} · ${N_BARS_SHOWN} top descriptors at low concentration. Drag the slider to watch them shift.`;
+      molSubEl.textContent = `CAS ${molecule.cas || '—'} · Top ${N_BARS_SHOWN} descriptors at low concentration, plus any that clearly emerge or fade. Drag the slider to watch them shift.`;
 
       computeFixedDescriptors();
       renderMovers();
