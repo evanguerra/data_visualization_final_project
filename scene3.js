@@ -66,7 +66,7 @@ function buildDom(container) {
               <span>High concentration</span>
             </div>
             <div class="legend-swatch-row">
-              <span class="legend-swatch" style="background:var(--line); border:1px solid var(--ink-faint);"></span>
+              <span class="legend-swatch" style="background:var(--line);"></span>
               <span>Other 154 stimuli (context)</span>
             </div>
           </div>

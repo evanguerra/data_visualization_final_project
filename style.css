@@ -451,8 +451,6 @@ button { font-family: inherit; }
 
 .pca-point-bg {
   fill: var(--line);
-  stroke: var(--ink-faint);
-  stroke-width: 1px;
   opacity: 0.65;
   pointer-events: none;
 }
