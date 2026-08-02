@@ -1,19 +1,23 @@
 // Shared annotation template for the narrative visualization.
 //
-// This is the single template every scene uses to draw its "built-in"
-// annotation: a small anchor dot on the data point being called out, a
-// dashed connector line, and a text callout box with a title + 1-2 lines
-// of supporting text. Using one function everywhere keeps annotation
-// styling/placement logic consistent from scene to scene, per the
-// assignment's requirement that annotations "follow a template for visual
-// consistency."
+// This wraps d3.annotation (the d3-svg-annotation library, loaded globally
+// as window.d3.annotation* via assets/d3-annotation.min.js) instead of
+// hand-drawing the callout box with raw SVG. Every scene still calls
+// drawAnnotation(layer, config) / pickAnnotationOffset(...) exactly as
+// before — only the rendering internals changed, so scene1.js / scene2.js /
+// scene3.js needed no edits.
 //
-// Critically, this is called directly from each scene's render() function
-// (not from a mouseover handler), so the annotation is drawn as soon as the
-// scene/parameters are set — it does not wait for user interaction.
-
-const PADDING = 10;
-const LINE_HEIGHT = 14;
+// d3.annotationCalloutCircle gives us the same three pieces our old
+// template had: a small circular "subject" marker on the data point, a
+// connector line/elbow out to a note box, and the note box itself. Styling
+// for all of it lives in style.css under the .annotation-* class names
+// this library generates (annotation-subject, annotation-connector,
+// annotation-note-bg/-title/-label).
+//
+// Critically, like the old version, this is called directly from each
+// scene's render() function (not from a mouseover handler) — the
+// annotation is drawn as soon as the scene/parameters are set, not on
+// hover.
 
 export function drawAnnotation(layer, config) {
   layer.selectAll('*').remove();
@@ -30,48 +34,24 @@ export function drawAnnotation(layer, config) {
   } = config;
 
   const lines = Array.isArray(text) ? text : [text];
-  const anchorsLeft = dx < 0; // box sits to the left of the anchor point
-  const boxX = anchorsLeft ? x + dx - width : x + dx;
-  const boxY = y + dy;
-  const boxHeight = PADDING * 2 + LINE_HEIGHT * (lines.length + 1);
 
-  const g = layer.append('g').attr('class', 'annotation-callout');
+  // d3.annotation's note has one title (bold heading) and one label
+  // (smaller, auto-wrapped body text) — not an arbitrary array of lines
+  // like the old template. The scene-provided "title" (a category, e.g.
+  // "Most intense stimulus") becomes the heading; the specific details
+  // (e.g. a stimulus name + its value) are joined into the wrapped label.
+  const label = lines.join('  —  ');
 
-  g.append('line')
-    .attr('class', 'annotation-connector')
-    .attr('x1', x).attr('y1', y)
-    .attr('x2', boxX + width / 2)
-    .attr('y2', boxY + boxHeight / 2);
+  const makeAnnotations = d3.annotation()
+    .type(d3.annotationCalloutCircle)
+    .annotations([{
+      note: { title, label, wrap: width, padding: 6 },
+      x, y, dx, dy,
+      subject: { radius: 4, radiusPadding: 2 },
+    }]);
 
-  g.append('circle')
-    .attr('class', 'annotation-anchor')
-    .attr('cx', x).attr('cy', y)
-    .attr('r', 4);
-
-  const box = g.append('g').attr('transform', `translate(${boxX},${boxY})`);
-
-  box.append('rect')
-    .attr('class', 'annotation-box')
-    .attr('width', width)
-    .attr('height', boxHeight)
-    .attr('rx', 4);
-
-  box.append('text')
-    .attr('class', 'annotation-title')
-    .attr('x', PADDING)
-    .attr('y', PADDING + 9)
-    .text(title);
-
-  box.selectAll('text.annotation-line')
-    .data(lines)
-    .enter()
-    .append('text')
-    .attr('class', 'annotation-line')
-    .attr('x', PADDING)
-    .attr('y', (d, i) => PADDING + 9 + LINE_HEIGHT * (i + 1))
-    .text((d) => d);
-
-  return g;
+  layer.call(makeAnnotations);
+  return layer;
 }
 
 export function clearAnnotation(layer) {
@@ -85,6 +65,12 @@ export function clearAnnotation(layer) {
 // many of the chart's own points each candidate box would cover, and
 // returns the first collision-free one it finds (or, failing that, the
 // candidate with the fewest overlaps that still fits inside the chart).
+//
+// This logic is independent of how the annotation itself gets drawn, so
+// it's unchanged from the original hand-rolled version.
+const PADDING = 10;
+const LINE_HEIGHT = 14;
+
 export function pickAnnotationOffset({
   x, y,
   points = [],

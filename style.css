@@ -13,9 +13,9 @@
   --accent-magenta: #A5457A;
   --accent-teal: #2F8F7A;
 
-  --font-display: "Space Grotesk", "Inter", sans-serif;
-  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
 
   --radius-sm: 3px;
   --radius-md: 6px;
@@ -601,33 +601,43 @@ button { font-family: inherit; }
   color: var(--accent-blue);
 }
 
-/* Shared annotation template — used identically by every scene so that
-   built-in (non-hover) callouts look and behave the same throughout. */
-.annotation-callout {
+/* Shared annotation template — now rendered by d3.annotation
+   (annotationCalloutCircle) instead of hand-drawn SVG, but still used
+   identically by every scene so built-in (non-hover) callouts look and
+   behave the same throughout. Class names below are the ones the library
+   itself generates: .annotation-subject (the small ring on the data
+   point), .annotation-connector (line/elbow out to the note),
+   .annotation-note-bg / -title / -label (the callout box itself). */
+.annotation {
   pointer-events: none;
 }
-.annotation-connector {
+.annotation-connector path,
+.annotation-connector line {
+  fill: none;
   stroke: var(--ink);
   stroke-width: 1.25px;
   stroke-dasharray: 2,2;
   opacity: 0.8;
 }
-.annotation-anchor {
-  fill: var(--accent-amber);
-  stroke: var(--ink);
-  stroke-width: 1px;
+.annotation-subject path,
+.annotation-subject circle {
+  fill: none;
+  stroke: var(--accent-amber);
+  stroke-width: 1.75px;
 }
-.annotation-box {
+.annotation-note-bg {
   fill: var(--ink);
   opacity: 0.95;
+  rx: 4px;
+  ry: 4px;
 }
-.annotation-title {
+.annotation-note-title {
   fill: var(--bg-panel);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 11.5px;
 }
-.annotation-line {
+.annotation-note-label {
   fill: var(--bg-panel);
   font-family: var(--font-mono);
   font-size: 10.5px;
