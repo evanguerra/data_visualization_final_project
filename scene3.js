@@ -292,8 +292,8 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       .attr('cy', (d) => y(d.point.pc2))
       .attr('r', (d) => radiusScale(d.point.mean_intensity))
       .attr('fill', (d) => (d.isHigh ? d.molecule.color : 'var(--bg)'))
-      .attr('stroke', (d) => d.molecule.color)
-      .attr('stroke-width', (d) => (d.isHigh ? 1 : 2))
+      .style('stroke', (d) => d.molecule.color)
+      .style('stroke-width', (d) => (d.isHigh ? 1 : 2))
       .classed('is-selected', (d) => d.molecule.cid === selectedCid)
       .on('mouseenter', (event, d) => {
         renderReadout(d);
