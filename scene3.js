@@ -219,16 +219,20 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       .attr('stroke', 'var(--line)').attr('stroke-dasharray', '2,3');
 
     const xLabel = gAxes.append('text')
+      .attr('class', 'axis-pole-label')
       .attr('text-anchor', 'middle')
       .attr('x', innerW / 2).attr('y', innerH + 36);
-    xLabel.append('tspan').attr('class', 'axis-label-title').text('PC1');
-    xLabel.append('tspan').attr('class', 'axis-label-sub').attr('dx', 6).text('(from Scene 01)');
+    xLabel.append('tspan').text('sickening, wet wool');
+    xLabel.append('tspan').attr('class', 'axis-pole-arrow').attr('dx', 8).text('⟵   ⟶');
+    xLabel.append('tspan').attr('dx', 8).text('fragrant, light');
 
     const yLabel = gAxes.append('text')
-      .attr('transform', `translate(${-38},${innerH / 2}) rotate(-90)`)
-      .attr('text-anchor', 'middle');
-    yLabel.append('tspan').attr('class', 'axis-label-title').text('PC2');
-    yLabel.append('tspan').attr('class', 'axis-label-sub').attr('dx', 6).text('(from Scene 01)');
+      .attr('class', 'axis-pole-label')
+      .attr('text-anchor', 'middle')
+      .attr('transform', `translate(${-38},${innerH / 2}) rotate(-90)`);
+    yLabel.append('tspan').text('putrid, sweet');
+    yLabel.append('tspan').attr('class', 'axis-pole-arrow').attr('dx', 8).text('⟵   ⟶');
+    yLabel.append('tspan').attr('dx', 8).text('aromatic, stale');
 
     // per-molecule arrowhead markers, colored to match
     defs.selectAll('marker.arrowhead')

@@ -1,7 +1,6 @@
 import { drawAnnotation } from './annotation.js';
 
 const DATA_URL = 'data/pca_data.json';
-const N_VECTORS_SHOWN = 12;
 
 let resizeObserver = null;
 let tooltipEl = null;
@@ -57,28 +56,6 @@ function buildDom(container) {
               Larger points were rated more strongly, on average, across all descriptors.
             </p>
           </div>
-
-          <div class="panel-block">
-            <div class="toggle-row">
-              <span>Show what shapes this map</span>
-              <button class="toggle-switch" id="s1-biplot-toggle" type="button" aria-pressed="false"></button>
-            </div>
-            <p class="toggle-help">
-              Adds an arrow for each of the strongest descriptors (a
-              "biplot"). Each arrow points toward higher ratings of that
-              descriptor — longer arrows have more influence on the map.
-            </p>
-          </div>
-
-          <div class="panel-block">
-            <p class="panel-block__label">About the axes</p>
-            <p class="legend-note" style="margin-top:0;">
-              PC1 and PC2 are computed dimensions that summarize all 146
-              descriptor ratings as simply as possible. The percentage shown
-              is how much of the total rating variation that axis alone
-              explains.
-            </p>
-          </div>
         </aside>
       </div>
     </div>
@@ -96,27 +73,17 @@ function init(container, { onNext, onPrev } = {}) {
   const svg = d3.select(container.querySelector('#s1-svg'));
   tooltipEl = container.querySelector('#s1-tooltip');
   const readoutEl = container.querySelector('#s1-readout');
-  const biplotToggle = container.querySelector('#s1-biplot-toggle');
   const legendGradient = container.querySelector('#s1-legend-gradient');
   const legendLabels = container.querySelector('#s1-legend-labels');
 
-  let showBiplot = false;
   let selectedId = null;
   let data = null;
   let colorScale = null;
   let radiusScale = null;
 
   const gAxes = svg.append('g').attr('class', 'layer-axes');
-  const gVectors = svg.append('g').attr('class', 'layer-vectors');
   const gPoints = svg.append('g').attr('class', 'layer-points');
   const gAnnotations = svg.append('g').attr('class', 'layer-annotations');
-
-  biplotToggle.addEventListener('click', () => {
-    showBiplot = !showBiplot;
-    biplotToggle.classList.toggle('is-on', showBiplot);
-    biplotToggle.setAttribute('aria-pressed', String(showBiplot));
-    gVectors.style('display', showBiplot ? null : 'none');
-  });
 
   function renderReadout(point) {
     if (!point) {
@@ -193,18 +160,20 @@ function init(container, { onNext, onPrev } = {}) {
       .attr('stroke', 'var(--line)').attr('stroke-dasharray', '2,3');
 
     const xLabel = gAxes.append('text')
+      .attr('class', 'axis-pole-label')
       .attr('text-anchor', 'middle')
       .attr('x', innerW / 2).attr('y', innerH + 36);
-    xLabel.append('tspan').attr('class', 'axis-label-title').text('PC1');
-    xLabel.append('tspan').attr('class', 'axis-label-sub').attr('dx', 6)
-      .text(`(${data.meta.pc1_variance_pct}% of variance)`);
+    xLabel.append('tspan').text('sickening, wet wool');
+    xLabel.append('tspan').attr('class', 'axis-pole-arrow').attr('dx', 8).text('⟵   ⟶');
+    xLabel.append('tspan').attr('dx', 8).text('fragrant, light');
 
     const yLabel = gAxes.append('text')
-      .attr('transform', `translate(${-38},${innerH / 2}) rotate(-90)`)
-      .attr('text-anchor', 'middle');
-    yLabel.append('tspan').attr('class', 'axis-label-title').text('PC2');
-    yLabel.append('tspan').attr('class', 'axis-label-sub').attr('dx', 6)
-      .text(`(${data.meta.pc2_variance_pct}% of variance)`);
+      .attr('class', 'axis-pole-label')
+      .attr('text-anchor', 'middle')
+      .attr('transform', `translate(${-38},${innerH / 2}) rotate(-90)`);
+    yLabel.append('tspan').text('putrid, sweet');
+    yLabel.append('tspan').attr('class', 'axis-pole-arrow').attr('dx', 8).text('⟵   ⟶');
+    yLabel.append('tspan').attr('dx', 8).text('aromatic, stale');
 
     gPoints.attr('transform', `translate(${margin.left},${margin.top})`);
 
@@ -238,69 +207,6 @@ function init(container, { onNext, onPrev } = {}) {
         gPoints.selectAll('circle.pca-point').classed('is-selected', (p) => p.stimulus === selectedId);
         renderReadout(selectedId ? d : null);
       });
-
-    const combined = [...data.top_loadings.pc1, ...data.top_loadings.pc2];
-    const seen = new Set();
-    const vectors = combined.filter((l) => {
-      if (seen.has(l.descriptor)) return false;
-      seen.add(l.descriptor);
-      return true;
-    }).slice(0, N_VECTORS_SHOWN);
-
-    const maxLoading = d3.max(vectors, (d) => Math.max(Math.abs(d.pc1), Math.abs(d.pc2)));
-    const maxScore = Math.max(Math.abs(pc1Extent[0]), pc1Extent[1], Math.abs(pc2Extent[0]), pc2Extent[1]);
-    const vectorScale = (maxScore * 0.85) / maxLoading;
-
-    gVectors.attr('transform', `translate(${margin.left},${margin.top})`);
-    gVectors.style('display', showBiplot ? null : 'none');
-    gVectors.selectAll('*').remove();
-
-    const vecGroups = gVectors.selectAll('g.vector')
-      .data(vectors, (d) => d.descriptor)
-      .enter()
-      .append('g')
-      .attr('class', 'vector');
-
-    vecGroups.append('line')
-      .attr('class', 'loading-vector')
-      .attr('x1', x(0)).attr('y1', y(0))
-      .attr('x2', (d) => x(d.pc1 * vectorScale))
-      .attr('y2', (d) => y(d.pc2 * vectorScale));
-
-    // Declutter labels: several descriptors often point in similar
-    // directions, so their labels land on top of one another. Nudge
-    // overlapping labels apart vertically and draw a short leader line
-    // back to the true arrow tip whenever a label had to move.
-    const labelPoints = vectors.map((d) => ({
-      descriptor: d.descriptor,
-      rawX: x(d.pc1 * vectorScale * 1.08),
-      rawY: y(d.pc2 * vectorScale * 1.08),
-    }));
-    labelPoints.forEach((p) => { p.x = p.rawX; p.y = p.rawY; });
-    labelPoints.sort((a, b) => a.y - b.y);
-    for (let i = 1; i < labelPoints.length; i++) {
-      if (labelPoints[i].y - labelPoints[i - 1].y < 11) {
-        labelPoints[i].y = labelPoints[i - 1].y + 11;
-      }
-    }
-
-    const gLabels = gVectors.selectAll('g.vector-label')
-      .data(labelPoints, (d) => d.descriptor)
-      .enter()
-      .append('g')
-      .attr('class', 'vector-label');
-
-    gLabels.filter((d) => Math.abs(d.y - d.rawY) > 2)
-      .append('line')
-      .attr('class', 'loading-vector-leader')
-      .attr('x1', (d) => d.rawX).attr('y1', (d) => d.rawY)
-      .attr('x2', (d) => d.x).attr('y2', (d) => d.y);
-
-    gLabels.append('text')
-      .attr('class', 'loading-label')
-      .attr('x', (d) => d.x)
-      .attr('y', (d) => d.y)
-      .text((d) => d.descriptor.split(',')[0]);
 
     // Built-in annotation (parameter-driven, not a hover effect): always
     // point out the single most intense stimulus in the atlas so the
