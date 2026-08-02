@@ -3,7 +3,7 @@ function buildDom(container) {
     <div class="intro-scene">
       <div>
         <div class="intro-scene__eyebrow">Start here</div>
-        <h1 class="intro-scene__title">How to read this atlas</h1>
+        <h1 class="intro-scene__title">Odor Space Atlas</h1>
         <p class="intro-scene__desc">
           160 odor stimuli were rated by panelists across 146 descriptors
           (like "floral," "sour," "musty"). This site walks through what
