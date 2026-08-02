@@ -266,7 +266,7 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       .merge(bgCircles)
       .attr('cx', (d) => x(d.pc1))
       .attr('cy', (d) => y(d.pc2))
-      .attr('r', (d) => radiusScale(d.mean_intensity));
+      .attr('r', 2.5);
 
     // per-molecule arrowhead markers, colored to match
     defs.selectAll('marker.arrowhead')

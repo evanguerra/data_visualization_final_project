@@ -3,14 +3,6 @@ import { drawAnnotation } from './annotation.js';
 const DATA_URL = 'data/trajectories.json';
 const N_BARS_SHOWN = 20;
 
-const CATEGORY_COLORS = {
-  grows: 'var(--accent-amber)',
-  emergent: 'var(--accent-magenta)',
-  shrinks: 'var(--accent-blue)',
-  fading: 'var(--ink-faint)',
-  flat: 'var(--line-strong)',
-};
-
 const CATEGORY_LABELS = {
   grows: 'Grows low → high',
   emergent: 'Emergent (near-zero at low)',
@@ -65,8 +57,19 @@ function buildDom(container) {
           </div>
 
           <div class="panel-block">
-            <p class="panel-block__label">Trajectory category</p>
-            <div class="legend-list" id="s4-legend"></div>
+            <p class="panel-block__label">Color · Change from low to high</p>
+            <div class="legend-scale" style="background: linear-gradient(90deg, #123C56, #7FAFC9, #E7C27A, #8A4A0E);"></div>
+            <div class="legend-scale-labels">
+              <span>Shrinks a lot</span><span>Little change</span><span>Grows a lot</span>
+            </div>
+            <div class="legend-swatch-row">
+              <span class="legend-swatch" style="background:var(--accent-magenta)"></span>
+              <span>Emergent (near-zero at low)</span>
+            </div>
+            <div class="legend-swatch-row">
+              <span class="legend-swatch" style="background:var(--accent-teal)"></span>
+              <span>Fading (near-zero at high)</span>
+            </div>
           </div>
 
           <div class="panel-block">
@@ -79,22 +82,12 @@ function buildDom(container) {
   `;
 }
 
-function buildLegend(container) {
-  container.innerHTML = Object.entries(CATEGORY_LABELS).map(([key, label]) => `
-    <div class="legend-swatch-row">
-      <span class="legend-swatch" style="background:${CATEGORY_COLORS[key]}"></span>
-      <span>${label}</span>
-    </div>
-  `).join('');
-}
-
 function init(container, { onBack, molecule: moleculeRef } = {}) {
   if (typeof d3 === 'undefined') {
     throw new Error('d3 is not loaded — check that assets/d3.min.js is present and loads before main.js');
   }
 
   buildDom(container);
-  buildLegend(container.querySelector('#s4-legend'));
 
   const vizEl = container.querySelector('#s4-viz');
   const svg = d3.select(container.querySelector('#s4-svg'));
@@ -116,6 +109,21 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
   let stepIndex = 0;
   let selected = null;
   let fixedDescriptors = [];
+
+  // Bar color encodes how much a descriptor's rating changes from low to
+  // high concentration (a gradient), matching Scene 02 exactly so the
+  // color language is consistent across both charts. "Emergent" and
+  // "fading" descriptors still get their own fixed colors, since those are
+  // distinct, notable patterns worth calling out regardless of magnitude.
+  const growColorScale = d3.interpolateRgb('#E7C27A', '#8A4A0E');
+  const shrinkColorScale = d3.interpolateRgb('#7FAFC9', '#123C56');
+  let maxAbsDelta = 1;
+
+  function changeColor(delta) {
+    const raw = Math.min(1, Math.abs(delta) / maxAbsDelta);
+    const t = 0.12 + 0.88 * raw;
+    return delta >= 0 ? growColorScale(t) : shrinkColorScale(t);
+  }
 
   slider.addEventListener('input', () => {
     stepIndex = Number(slider.value);
@@ -161,9 +169,14 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
 
   function entriesForStep() {
     const step = molecule.steps[stepIndex];
+    const lowStep = molecule.steps[0];
+    const highStep = molecule.steps[molecule.steps.length - 1];
     return fixedDescriptors.map((descriptor) => ({
       descriptor,
       value: step.values[descriptor],
+      lowValue: lowStep.values[descriptor],
+      highValue: highStep.values[descriptor],
+      delta: (highStep.values[descriptor] ?? 0) - (lowStep.values[descriptor] ?? 0),
       category: molecule.descriptor_categories[descriptor] || 'flat',
     }));
   }
@@ -176,6 +189,7 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
     readoutEl.innerHTML = `
       <div class="readout__name">${entry.descriptor}</div>
       <div class="readout__row"><span>Rating (${molecule.steps[stepIndex].label})</span><span>${fmt(entry.value)}</span></div>
+      <div class="readout__row"><span>Change (low → high)</span><span>${fmt(entry.lowValue)} → ${fmt(entry.highValue)}</span></div>
       <div class="readout__row"><span>Trajectory</span><span>${CATEGORY_LABELS[entry.category] || entry.category}</span></div>
     `;
   }
@@ -275,7 +289,11 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
       .attr('height', 0);
 
     barsEnter.merge(bars)
-      .attr('fill', (d) => CATEGORY_COLORS[d.category] || 'var(--line-strong)')
+      .attr('fill', (d) => {
+        if (d.category === 'emergent') return 'var(--accent-magenta)';
+        if (d.category === 'fading') return 'var(--accent-teal)';
+        return changeColor(d.delta);
+      })
       .classed('is-selected', (d) => selected && selected.descriptor === d.descriptor)
       .on('mouseenter', (event, d) => {
         renderReadout(d);
@@ -345,6 +363,19 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
       if (!molecule) {
         throw new Error('No molecule data available.');
       }
+
+      // Normalize the color gradient against every molecule's descriptor
+      // deltas (not just this one's), so a given magnitude of change maps
+      // to the exact same color here as it does in Scene 02.
+      maxAbsDelta = json.molecules.reduce((max, m) => {
+        const low = m.steps[0].values;
+        const high = m.steps[m.steps.length - 1].values;
+        Object.keys(low).forEach((descriptor) => {
+          const delta = Math.abs((high[descriptor] ?? 0) - (low[descriptor] ?? 0));
+          if (delta > max) max = delta;
+        });
+        return max;
+      }, 0) || 1;
 
       titleEl.textContent = molecule.name;
       molTitleEl.textContent = molecule.name;
