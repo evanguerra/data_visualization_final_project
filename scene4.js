@@ -4,9 +4,9 @@ const DATA_URL = 'data/trajectories.json';
 const N_BARS_SHOWN = 20;
 
 const CATEGORY_LABELS = {
-  grows: 'Grows low → high',
+  grows: 'Grows low to high',
   emergent: 'Emergent (near-zero at low)',
-  shrinks: 'Shrinks low → high',
+  shrinks: 'Shrinks low to high',
   fading: 'Fading (near-zero at high)',
   flat: 'Flat',
 };
@@ -24,7 +24,7 @@ function buildDom(container) {
       <div class="scene__intro">
         <div class="scene__intro-text">
           <button class="back-link" id="s4-back" type="button">&larr; Back to atlas</button>
-          <div class="scene__eyebrow" id="s4-eyebrow">Scene 04 · Explore a molecule</div>
+          <div class="scene__eyebrow" id="s4-eyebrow">Scene 04 - Explore a molecule</div>
           <h1 class="scene__title" id="s4-mol-title">—</h1>
           <p class="scene__desc" id="s4-mol-sub"></p>
         </div>
@@ -42,7 +42,7 @@ function buildDom(container) {
         </div>
         <aside class="scene__controls">
           <div class="scene__reading">
-            <p class="panel-block__label">Reading</p>
+            <p class="panel-block__label">Descriptor Details</p>
             <div class="readout" id="s4-readout">
               <p class="readout-empty">Hover or click a bar to inspect it.</p>
             </div>
@@ -57,7 +57,7 @@ function buildDom(container) {
           </div>
 
           <div class="panel-block">
-            <p class="panel-block__label">Color · Change from low to high</p>
+            <p class="panel-block__label">Color - Change from low to high</p>
             <div class="legend-scale" style="background: linear-gradient(90deg, #123C56, #7FAFC9, #E7C27A, #8A4A0E);"></div>
             <div class="legend-scale-labels">
               <span>Shrinks a lot</span><span>Little change</span><span>Grows a lot</span>
@@ -83,10 +83,6 @@ function buildDom(container) {
 }
 
 function init(container, { onBack, molecule: moleculeRef } = {}) {
-  if (typeof d3 === 'undefined') {
-    throw new Error('d3 is not loaded — check that assets/d3.min.js is present and loads before main.js');
-  }
-
   buildDom(container);
 
   const vizEl = container.querySelector('#s4-viz');
@@ -110,11 +106,6 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
   let selected = null;
   let fixedDescriptors = [];
 
-  // Bar color encodes how much a descriptor's rating changes from low to
-  // high concentration (a gradient), matching Scene 02 exactly so the
-  // color language is consistent across both charts. "Emergent" and
-  // "fading" descriptors still get their own fixed colors, since those are
-  // distinct, notable patterns worth calling out regardless of magnitude.
   const growColorScale = d3.interpolateRgb('#E7C27A', '#8A4A0E');
   const shrinkColorScale = d3.interpolateRgb('#7FAFC9', '#123C56');
   let maxAbsDelta = 1;
@@ -141,9 +132,6 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
     const lowStep = molecule.steps[0];
     const categories = molecule.descriptor_categories || {};
 
-    // Always show descriptors with a distinct emerging/fading pattern —
-    // near-zero at one concentration and clearly present at the other —
-    // even if their raw intensity wouldn't otherwise make the top N.
     const mustInclude = Object.keys(lowStep.values).filter(
       (descriptor) => categories[descriptor] === 'emergent' || categories[descriptor] === 'fading'
     );
@@ -158,10 +146,6 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
       if (!combined.includes(descriptor)) combined.push(descriptor);
     }
 
-    // Keep bars ordered by low-concentration intensity, so the chart still
-    // reads left-to-right as "strongest at low concentration first," with
-    // emerging/fading descriptors falling wherever their low-concentration
-    // rating puts them.
     combined.sort((a, b) => (lowStep.values[b] ?? 0) - (lowStep.values[a] ?? 0));
 
     fixedDescriptors = combined;
@@ -189,7 +173,7 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
     readoutEl.innerHTML = `
       <div class="readout__name">${entry.descriptor}</div>
       <div class="readout__row"><span>Rating (${molecule.steps[stepIndex].label})</span><span>${fmt(entry.value)}</span></div>
-      <div class="readout__row"><span>Change (low → high)</span><span>${fmt(entry.lowValue)} → ${fmt(entry.highValue)}</span></div>
+      <div class="readout__row"><span>Change (low to high)</span><span>${fmt(entry.lowValue)} → ${fmt(entry.highValue)}</span></div>
       <div class="readout__row"><span>Trajectory</span><span>${CATEGORY_LABELS[entry.category] || entry.category}</span></div>
     `;
   }
@@ -321,9 +305,6 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
       .attr('y', (d) => y(d.value))
       .attr('height', (d) => innerH - y(d.value));
 
-    // Built-in annotation: call out this molecule's single biggest mover
-    // (from its precomputed highlights), tracking the bar's live height as
-    // the concentration slider moves.
     let gAnn = g.select('g.layer-annotations');
     if (gAnn.empty()) gAnn = g.append('g').attr('class', 'layer-annotations');
 
@@ -364,9 +345,6 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
         throw new Error('No molecule data available.');
       }
 
-      // Normalize the color gradient against every molecule's descriptor
-      // deltas (not just this one's), so a given magnitude of change maps
-      // to the exact same color here as it does in Scene 02.
       maxAbsDelta = json.molecules.reduce((max, m) => {
         const low = m.steps[0].values;
         const high = m.steps[m.steps.length - 1].values;
@@ -379,7 +357,7 @@ function init(container, { onBack, molecule: moleculeRef } = {}) {
 
       titleEl.textContent = molecule.name;
       molTitleEl.textContent = molecule.name;
-      molSubEl.textContent = `CAS ${molecule.cas || '—'} · Top ${N_BARS_SHOWN} descriptors at low concentration, plus any that clearly emerge or fade. Drag the slider to watch them shift.`;
+      molSubEl.textContent = `CAS ${molecule.cas || '—'} · Top ${N_BARS_SHOWN} descriptors at low concentration. Drag the slider to watch them shift.`;
 
       computeFixedDescriptors();
       renderMovers();

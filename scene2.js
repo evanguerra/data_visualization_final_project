@@ -4,9 +4,9 @@ const DATA_URL = 'data/trajectories.json';
 const N_BARS_SHOWN = 20;
 
 const CATEGORY_LABELS = {
-  grows: 'Grows low → high',
+  grows: 'Grows low to high',
   emergent: 'Emergent (near-zero at low)',
-  shrinks: 'Shrinks low → high',
+  shrinks: 'Shrinks low to high',
   fading: 'Fading (near-zero at high)',
   flat: 'Flat',
 };
@@ -24,22 +24,15 @@ function buildDom(container) {
     <div class="scene" id="scene2">
       <div class="scene__intro">
         <div class="scene__intro-text">
-          <div class="scene__eyebrow">Scene 02 · Descriptor profiles</div>
+          <div class="scene__eyebrow">Scene 02 - Descriptor profiles</div>
           <h1 class="scene__title">Top Descriptors</h1>
           <p class="scene__desc">
             The ${N_BARS_SHOWN} highest-rated descriptors for each molecule at
-            low concentration — plus any descriptor that clearly emerges or
-            disappears as concentration rises, even if it wasn't rated highly
-            to begin with. Smell isn't static — the same molecule can read
+            low concentration as well as any descriptor that clearly emerges or
+            disappears as concentration rises. The same molecule can smell
             very differently depending on how much of it you're smelling.
-            Drag the slider to watch which descriptors survive, emerge, or
+            Drag the slider to watch which descriptors stay the same, emerge, or
             fade as concentration rises.
-          </p>
-          <p class="scene__takeaway">
-            <span class="scene__takeaway-label">Takeaway</span>
-            <span>A molecule's smell isn't fixed — raising the concentration
-            can make new descriptors emerge, established ones fade, or even
-            flip which note dominates. Drag the slider to see it happen.</span>
           </p>
         </div>
       </div>
@@ -62,7 +55,7 @@ function buildDom(container) {
         </div>
         <aside class="scene__controls">
           <div class="scene__reading">
-            <p class="panel-block__label">Reading</p>
+            <p class="panel-block__label">Descriptor Details</p>
             <div class="readout" id="s2-readout">
               <p class="readout-empty">Hover or click a bar to inspect it.</p>
             </div>
@@ -77,7 +70,7 @@ function buildDom(container) {
           </div>
 
           <div class="panel-block">
-            <p class="panel-block__label">Color · Change from low to high</p>
+            <p class="panel-block__label">Color - Change from low to high</p>
             <div class="legend-scale" style="background: linear-gradient(90deg, #123C56, #7FAFC9, #E7C27A, #8A4A0E);"></div>
             <div class="legend-scale-labels">
               <span>Shrinks a lot</span><span>Little change</span><span>Grows a lot</span>
@@ -98,10 +91,6 @@ function buildDom(container) {
 }
 
 function init(container, { onNext, onPrev } = {}) {
-  if (typeof d3 === 'undefined') {
-    throw new Error('d3 is not loaded — check that assets/d3.min.js is present and loads before main.js');
-  }
-
   buildDom(container);
 
   const vizEl = container.querySelector('#s2-viz');
@@ -116,13 +105,6 @@ function init(container, { onNext, onPrev } = {}) {
 
   tooltipEls = { el: tooltipEl };
 
-  // Bar color encodes how much a descriptor's rating changes from low to
-  // high concentration (a gradient), not just whether it grows or shrinks.
-  // "Emergent" and "fading" descriptors are still always their own fixed
-  // colors — those are distinct, notable patterns worth calling out on
-  // their own regardless of magnitude. Colors are deepened at both ends
-  // (with a floor at the low-change end) so nothing washes out against the
-  // page background.
   const growColorScale = d3.interpolateRgb('#E7C27A', '#8A4A0E');
   const shrinkColorScale = d3.interpolateRgb('#7FAFC9', '#123C56');
   let maxAbsDelta = 1;
@@ -135,11 +117,9 @@ function init(container, { onNext, onPrev } = {}) {
 
   let data = null;
   let molecules = [];
-  let stepIndex = 0; // 0..5, index into molecule.steps
-  let selected = null; // { moleculeName, descriptor }
-  // Which descriptors are shown per molecule is fixed at the low-concentration
-  // top N, so bars stay in place and only their heights move as you slide.
-  const fixedDescriptors = new Map(); // moleculeName -> [descriptor, ...]
+  let stepIndex = 0;
+  let selected = null;
+  const fixedDescriptors = new Map();
 
   slider.addEventListener('input', () => {
     stepIndex = Number(slider.value);
@@ -158,9 +138,6 @@ function init(container, { onNext, onPrev } = {}) {
       const lowStep = molecule.steps[0];
       const categories = molecule.descriptor_categories || {};
 
-      // Always show descriptors with a distinct emerging/fading pattern —
-      // near-zero at one concentration and clearly present at the other —
-      // even if their raw intensity wouldn't otherwise make the top N.
       const mustInclude = Object.keys(lowStep.values).filter(
         (descriptor) => categories[descriptor] === 'emergent' || categories[descriptor] === 'fading'
       );
@@ -175,10 +152,6 @@ function init(container, { onNext, onPrev } = {}) {
         if (!combined.includes(descriptor)) combined.push(descriptor);
       }
 
-      // Keep bars ordered by low-concentration intensity, so the chart
-      // still reads left-to-right as "strongest at low concentration
-      // first," with emerging/fading descriptors falling wherever their
-      // low-concentration rating puts them.
       combined.sort((a, b) => (lowStep.values[b] ?? 0) - (lowStep.values[a] ?? 0));
 
       fixedDescriptors.set(molecule.name, combined);
@@ -324,10 +297,6 @@ function init(container, { onNext, onPrev } = {}) {
       .attr('y', (d) => y(d.value))
       .attr('height', (d) => innerH - y(d.value));
 
-    // Built-in annotation: call out whichever descriptor changes the most
-    // from low to high concentration — the biggest swing in either
-    // direction — since that's this scene's central point. Position
-    // tracks the bar's live height as the concentration slider moves.
     let gAnn = g.select('g.layer-annotations');
     if (gAnn.empty()) gAnn = g.append('g').attr('class', 'layer-annotations');
 
@@ -347,7 +316,7 @@ function init(container, { onNext, onPrev } = {}) {
         title: 'Changes the most',
         text: [
           focus.descriptor,
-          `${fmt(focus.lowValue)} → ${fmt(focus.highValue)} (low → high)`,
+          `${fmt(focus.lowValue)} → ${fmt(focus.highValue)} (low to high)`,
         ],
       });
     } else {

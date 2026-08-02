@@ -15,18 +15,11 @@ function buildDom(container) {
     <div class="scene" id="scene1">
       <div class="scene__intro">
         <div class="scene__intro-text">
-          <div class="scene__eyebrow">Scene 01 · Perceptual map</div>
+          <div class="scene__eyebrow">Scene 01 - Perceptual map</div>
           <h1 class="scene__title">Odor Space</h1>
           <p class="scene__desc">
-            160 stimuli, each rated by panelists across 146 odor descriptors,
-            reduced to two dimensions. Nearby points smell similar overall —
-            not on any single note, but across the whole descriptor profile.
-          </p>
-          <p class="scene__takeaway">
-            <span class="scene__takeaway-label">Takeaway</span>
-            <span>Position alone carries most of the story — points that land
-            near each other smell alike overall, without sharing one
-            standout descriptor. Try the map below yourself.</span>
+            160 stimuli, each rated by panelists across 146 odor descriptors, represented in two dimensions. 
+            Nearby points smell similar overall across the whole descriptor profile.
           </p>
         </div>
       </div>
@@ -38,26 +31,26 @@ function buildDom(container) {
         </div>
         <aside class="scene__controls">
           <div class="scene__reading">
-            <p class="panel-block__label">Reading</p>
+            <p class="panel-block__label">Molecule Details</p>
             <div class="readout" id="s1-readout">
               <p class="readout-empty">Hover or click a point to inspect it.</p>
             </div>
           </div>
 
           <div class="panel-block">
-            <p class="panel-block__label">Color · Molecular weight</p>
+            <p class="panel-block__label">Color - Molecular weight</p>
             <div class="legend-scale" id="s1-legend-gradient"></div>
             <div class="legend-scale-labels" id="s1-legend-labels">
               <span>—</span><span>—</span>
             </div>
             <div class="legend-swatch-row">
               <span class="legend-swatch" style="background:var(--accent-magenta)"></span>
-              <span>Mixture / no single CID</span>
+              <span>Mixture</span>
             </div>
           </div>
 
           <div class="panel-block">
-            <p class="panel-block__label">Size · Mean rated intensity</p>
+            <p class="panel-block__label">Size - Mean rated intensity</p>
             <p class="scene__desc" style="margin:0; max-width:none;">
               Larger points were rated more strongly, on average, across all descriptors.
             </p>
@@ -69,10 +62,6 @@ function buildDom(container) {
 }
 
 function init(container, { onNext, onPrev } = {}) {
-  if (typeof d3 === 'undefined') {
-    throw new Error('d3 is not loaded — check that assets/d3.min.js is present and loads before main.js');
-  }
-
   buildDom(container);
 
   const vizEl = container.querySelector('#s1-viz');
@@ -214,9 +203,6 @@ function init(container, { onNext, onPrev } = {}) {
         renderReadout(selectedId ? d : null);
       });
 
-    // Built-in annotation (parameter-driven, not a hover effect): always
-    // point out the single most intense stimulus in the atlas so the
-    // narrative point — "size encodes intensity" — lands immediately.
     gAnnotations.attr('transform', `translate(${margin.left},${margin.top})`);
     const focus = data.points.reduce(
       (best, d) => (!best || d.mean_intensity > best.mean_intensity ? d : best),

@@ -24,20 +24,14 @@ function buildDom(container) {
     <div class="scene" id="scene3">
       <div class="scene__intro">
         <div class="scene__intro-text">
-          <div class="scene__eyebrow">Scene 03 · Paired concentrations</div>
+          <div class="scene__eyebrow">Scene 03 - Paired concentrations</div>
           <h1 class="scene__title">Movement in Odor Space</h1>
           <p class="scene__desc">
             Of the 160 stimuli, only 6 molecules were rated at both a low
             and a high concentration. Each arrow traces how that molecule's
             position on the same map from Scene 01 shifts as concentration
-            rises.
-          </p>
-          <p class="scene__takeaway">
-            <span class="scene__takeaway-label">Takeaway</span>
-            <span>Every one of these 6 molecules moves — concentration
-            reshapes a smell's position in the map, not just its
-            descriptors. Click an arrow to dig into one molecule's full
-            profile.</span>
+            rises. Click an arrow to dig into one molecule's full
+            profile.
           </p>
         </div>
       </div>
@@ -49,7 +43,7 @@ function buildDom(container) {
         </div>
         <aside class="scene__controls">
           <div class="scene__reading">
-            <p class="panel-block__label">Reading</p>
+            <p class="panel-block__label">Molecule Details</p>
             <div class="readout" id="s3-readout">
               <p class="readout-empty">Hover or click a point to inspect it.</p>
             </div>
@@ -67,7 +61,7 @@ function buildDom(container) {
             </div>
             <div class="legend-swatch-row">
               <span class="legend-swatch" style="background:var(--line);"></span>
-              <span>Other 154 stimuli (context)</span>
+              <span>Other stimuli as context</span>
             </div>
           </div>
 
@@ -75,8 +69,7 @@ function buildDom(container) {
             <p class="panel-block__label">Molecules</p>
             <div class="legend-list" id="s3-legend"></div>
             <p class="legend-note">
-              Click any molecule — on the plot or in this list — to open its
-              full descriptor profile and slide through concentration.
+              Click any molecule to open its full descriptor profile and slide through concentration.
             </p>
           </div>
         </aside>
@@ -98,8 +91,8 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
   const readoutEl = container.querySelector('#s3-readout');
   const legendEl = container.querySelector('#s3-legend');
 
-  let molecules = []; // [{ name, cas, cid, color, low, high }]
-  let backgroundPoints = []; // all other stimuli, shown in grey for context
+  let molecules = [];
+  let backgroundPoints = [];
   let radiusScale = null;
   let selectedCid = null;
 
@@ -143,7 +136,7 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       <div class="readout__row"><span>CAS</span><span>${m.cas || '—'}</span></div>
       ${p ? `<div class="readout__row"><span>Concentration</span><span>${p.concentration}</span></div>
       <div class="readout__row"><span>PC1, PC2</span><span>${fmt(p.pc1)}, ${fmt(p.pc2)}</span></div>` : ''}
-      <div class="readout__row"><span>Low → High shift</span><span>${fmt(m.shiftMagnitude)}</span></div>
+      <div class="readout__row"><span>Low to High shift</span><span>${fmt(m.shiftMagnitude)}</span></div>
     `;
   }
 
@@ -249,10 +242,6 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
     yLabel.append('tspan').attr('class', 'axis-pole-arrow').attr('dx', 8).text('⟵   ⟶');
     yLabel.append('tspan').attr('dx', 8).text('aromatic, stale');
 
-    // Background context: every other rated stimulus, drawn small, grey,
-    // and non-interactive, so the reader can still see the shape of the
-    // full 160-point odor space (as in Scene 01) without it competing for
-    // attention with the 6 highlighted molecules and their arrows.
     gBackground.attr('transform', `translate(${margin.left},${margin.top})`);
 
     const bgCircles = gBackground.selectAll('circle.pca-point-bg')
@@ -268,7 +257,6 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       .attr('cy', (d) => y(d.pc2))
       .attr('r', 2.5);
 
-    // per-molecule arrowhead markers, colored to match
     defs.selectAll('marker.arrowhead')
       .data(molecules, (d) => d.cid)
       .join('marker')
@@ -341,10 +329,6 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       })
       .on('click', (event, d) => selectMolecule(d.molecule));
 
-    // Molecule name labels near the high point. Several molecules can sit
-    // close together, so labels are decluttered (nudged apart vertically)
-    // with a short leader line back to the true point whenever moved —
-    // same technique as the biplot labels in Scene 01, for consistency.
     const labelData = molecules.map((m) => ({
       cid: m.cid,
       name: m.name,
@@ -386,8 +370,6 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
       .attr('fill', (d) => d.color)
       .text((d) => d.name);
 
-    // Built-in annotation: always surface the molecule whose low→high shift
-    // is largest, since that's this scene's central claim.
     gAnnotations.attr('transform', `translate(${margin.left},${margin.top})`);
     const focus = molecules.reduce(
       (best, m) => (!best || (m.shiftMagnitude ?? 0) > (best.shiftMagnitude ?? 0) ? m : best),
