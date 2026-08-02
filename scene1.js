@@ -1,4 +1,4 @@
-import { drawAnnotation } from './annotation.js';
+import { drawAnnotation, pickAnnotationOffset } from './annotation.js';
 
 const DATA_URL = 'data/pca_data.json';
 
@@ -225,11 +225,23 @@ function init(container, { onNext, onPrev } = {}) {
     if (focus) {
       const fx = x(focus.pc1);
       const fy = y(focus.pc2);
+      const pointGeoms = data.points
+        .filter((d) => d.stimulus !== focus.stimulus)
+        .map((d) => ({ x: x(d.pc1), y: y(d.pc2), r: radiusScale(d.mean_intensity) }));
+      const offset = pickAnnotationOffset({
+        x: fx,
+        y: fy,
+        points: pointGeoms,
+        innerW,
+        innerH,
+        width: 176,
+        lines: 2,
+      });
       drawAnnotation(gAnnotations, {
         x: fx,
         y: fy,
-        dx: fx > innerW / 2 ? -196 : 22,
-        dy: fy > innerH / 2 ? -76 : 22,
+        dx: offset.dx,
+        dy: offset.dy,
         title: 'Most intense stimulus',
         text: [
           focus.name || focus.stimulus,

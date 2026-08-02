@@ -1,4 +1,4 @@
-import { drawAnnotation } from './annotation.js';
+import { drawAnnotation, pickAnnotationOffset } from './annotation.js';
 
 const PCA_URL = 'data/pca_data.json';
 const TRAJECTORIES_URL = 'data/trajectories.json';
@@ -396,11 +396,29 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
     if (focus) {
       const hx = x(focus.high.pc1);
       const hy = y(focus.high.pc2);
+      const collisionPoints = [
+        ...backgroundPoints.map((d) => ({ x: x(d.pc1), y: y(d.pc2), r: 2.5, stimulus: d.stimulus })),
+        ...pointData.map((d) => ({
+          x: x(d.point.pc1),
+          y: y(d.point.pc2),
+          r: radiusScale(d.point.mean_intensity),
+          stimulus: d.point.stimulus,
+        })),
+      ].filter((p) => p.stimulus !== focus.high.stimulus);
+      const offset = pickAnnotationOffset({
+        x: hx,
+        y: hy,
+        points: collisionPoints,
+        innerW,
+        innerH,
+        width: 176,
+        lines: 2,
+      });
       drawAnnotation(gAnnotations, {
         x: hx,
         y: hy,
-        dx: hx > innerW / 2 ? -196 : 22,
-        dy: hy > innerH / 2 ? -84 : 22,
+        dx: offset.dx,
+        dy: offset.dy,
         title: 'Largest perceptual shift',
         text: [focus.name, `shift magnitude ${fmt(focus.shiftMagnitude)}`],
       });
