@@ -449,6 +449,14 @@ button { font-family: inherit; }
   opacity: 0.18;
 }
 
+.pca-point-bg {
+  fill: var(--line);
+  stroke: var(--ink-faint);
+  stroke-width: 1px;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
 .loading-vector {
   stroke: var(--accent-magenta);
   stroke-width: 1px;

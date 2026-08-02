@@ -65,6 +65,10 @@ function buildDom(container) {
               <span class="legend-swatch legend-swatch--filled"></span>
               <span>High concentration</span>
             </div>
+            <div class="legend-swatch-row">
+              <span class="legend-swatch" style="background:var(--line); border:1px solid var(--ink-faint);"></span>
+              <span>Other 154 stimuli (context)</span>
+            </div>
           </div>
 
           <div class="panel-block">
@@ -95,12 +99,14 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
   const legendEl = container.querySelector('#s3-legend');
 
   let molecules = []; // [{ name, cas, cid, color, low, high }]
+  let backgroundPoints = []; // all other stimuli, shown in grey for context
   let radiusScale = null;
   let selectedCid = null;
 
   const defs = svg.append('defs');
 
   const gAxes = svg.append('g').attr('class', 'layer-axes');
+  const gBackground = svg.append('g').attr('class', 'layer-background');
   const gArrows = svg.append('g').attr('class', 'layer-arrows');
   const gPoints = svg.append('g').attr('class', 'layer-points');
   const gAnnotations = svg.append('g').attr('class', 'layer-annotations');
@@ -186,7 +192,9 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
 
     svg.attr('viewBox', `0 0 ${width} ${height}`);
 
-    const allPoints = molecules.flatMap((m) => [m.low, m.high]);
+    const allPoints = backgroundPoints.length
+      ? backgroundPoints
+      : molecules.flatMap((m) => [m.low, m.high]);
     const pc1Extent = d3.extent(allPoints, (d) => d.pc1);
     const pc2Extent = d3.extent(allPoints, (d) => d.pc2);
     const padX = (pc1Extent[1] - pc1Extent[0]) * 0.18 || 1;
@@ -240,6 +248,25 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
     yLabel.append('tspan').text('putrid, sweet');
     yLabel.append('tspan').attr('class', 'axis-pole-arrow').attr('dx', 8).text('⟵   ⟶');
     yLabel.append('tspan').attr('dx', 8).text('aromatic, stale');
+
+    // Background context: every other rated stimulus, drawn small, grey,
+    // and non-interactive, so the reader can still see the shape of the
+    // full 160-point odor space (as in Scene 01) without it competing for
+    // attention with the 6 highlighted molecules and their arrows.
+    gBackground.attr('transform', `translate(${margin.left},${margin.top})`);
+
+    const bgCircles = gBackground.selectAll('circle.pca-point-bg')
+      .data(backgroundPoints, (d) => d.stimulus);
+
+    bgCircles.exit().remove();
+
+    bgCircles.enter()
+      .append('circle')
+      .attr('class', 'pca-point-bg')
+      .merge(bgCircles)
+      .attr('cx', (d) => x(d.pc1))
+      .attr('cy', (d) => y(d.pc2))
+      .attr('r', (d) => radiusScale(d.mean_intensity));
 
     // per-molecule arrowhead markers, colored to match
     defs.selectAll('marker.arrowhead')
@@ -392,6 +419,7 @@ function init(container, { onNext, onPrev, onSelectMolecule } = {}) {
   ])
     .then(([pca, trajectories]) => {
       const pointsByStimulus = new Map(pca.points.map((p) => [p.stimulus, p]));
+      backgroundPoints = pca.points;
 
       molecules = trajectories.molecules.map((m, i) => {
         const low = pointsByStimulus.get(m.low_stimulus);
